@@ -1,0 +1,21 @@
+.lay-logout {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  margin-left: auto;
+  padding: 0;
+  color: inherit;
+  background: transparent;
+  border: 1.5px solid currentColor;
+  border-radius: 8px;
+  opacity: 0.65;
+  cursor: pointer;
+  transition: opacity 0.15s, color 0.15s;
+
+  &:hover {
+    color: #ef4444;
+    opacity: 1;
+  }
+}

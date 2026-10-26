@@ -1,0 +1,318 @@
+// Login — split layout, same sage-green theme as the rest of the app
+$ink: #1c261b;
+$muted: #5d685a;
+$faint: #93a08f;
+$line: #d3dccd;
+$surface: #f3f6f0;
+$brand: #4f7a46;
+$brand-dark: #3f6839;
+$brand-deep: #2f5a2b;
+$brand-night: #1f3d1c;
+$brand-soft: #e4ede0;
+$bg: #f5f8f2;
+
+$curve: 56px;
+
+.lg {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  padding: 24px;
+  font-family: Manrope, Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+  background:
+    radial-gradient(900px 480px at 12% 8%, rgba($brand, 0.14), transparent 60%),
+    radial-gradient(760px 420px at 92% 94%, rgba($brand-deep, 0.16), transparent 60%),
+    $bg;
+
+  // Outer frame: green shows through the curved corner of the white panel
+  &-shell {
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    width: 100%;
+    max-width: 960px;
+    min-height: 580px;
+    overflow: hidden;
+    background: linear-gradient(160deg, $brand 0%, $brand-deep 55%, $brand-night 100%);
+    border-radius: 22px;
+    box-shadow: 0 30px 70px rgba(31, 54, 28, 0.22);
+  }
+
+  // ---------- Left visual panel ----------
+  &-visual {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 26px;
+    overflow: hidden;
+    color: #fff;
+    background:
+      radial-gradient(420px 320px at 30% 0%, rgba(255, 255, 255, 0.16), transparent 70%),
+      linear-gradient(170deg, $brand 0%, $brand-deep 60%, $brand-night 100%);
+  }
+
+  &-tower {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+
+    line {
+      stroke: rgba(255, 255, 255, 0.2);
+      stroke-width: 1.2;
+    }
+
+    .lg-tower-edge {
+      stroke: rgba(255, 255, 255, 0.55);
+      stroke-width: 1.6;
+    }
+
+    .lg-tower-face-a {
+      fill: rgba(255, 255, 255, 0.05);
+    }
+
+    .lg-tower-face-b {
+      fill: rgba(0, 0, 0, 0.18);
+    }
+  }
+
+  &-brand {
+    position: relative;
+    align-self: flex-start;
+    padding: 9px 14px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 4px;
+    backdrop-filter: blur(4px);
+  }
+
+  &-visual-text {
+    position: relative;
+    max-width: 230px;
+    margin: 0;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.92);
+  }
+
+  // ---------- Right form panel ----------
+  &-card {
+    display: flex;
+    flex-direction: column;
+    padding: 24px 40px 40px;
+    background: #fff;
+    border-top-left-radius: $curve;
+  }
+
+  &-top {
+    display: flex;
+    justify-content: flex-end;
+    min-height: 40px;
+  }
+
+  &-mark {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    font-size: 19px;
+    font-weight: 800;
+    color: #fff;
+    background: linear-gradient(145deg, $brand, $brand-deep);
+    border-radius: 12px;
+    box-shadow: 0 8px 18px rgba($brand-deep, 0.3);
+  }
+
+  &-body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
+    gap: 18px;
+    width: 100%;
+    max-width: 360px;
+    margin: 0 auto;
+
+    h1 {
+      margin: 0;
+      font-size: 30px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: $muted;
+    }
+
+    p {
+      margin: -10px 0 8px;
+      color: $faint;
+      font-size: 15px;
+    }
+  }
+
+  &-alert {
+    padding: 11px 14px;
+    font-size: 14px;
+    color: #b42a20;
+    background: #fde3e0;
+    border: 1px solid #f3b9b3;
+    border-radius: 10px;
+  }
+
+  &-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    label {
+      font-size: 13px;
+      font-weight: 700;
+      color: $ink;
+    }
+
+    input {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 13px 14px;
+      font: inherit;
+      font-size: 15px;
+      color: $ink;
+      background: $surface;
+      border: 1.5px solid $line;
+      border-radius: 10px;
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+
+      &::placeholder {
+        color: $faint;
+      }
+
+      &:hover {
+        border-color: $brand;
+      }
+
+      &:focus {
+        background: #fff;
+        border-color: $brand;
+        box-shadow: 0 0 0 3px rgba($brand, 0.22);
+      }
+    }
+  }
+
+  // Password field with the show / hide eye button inside it
+  &-pass {
+    position: relative;
+
+    input {
+      padding-right: 48px;
+    }
+
+    // Hide the browser's own reveal icon (Edge / IE) so only ours shows
+    input::-ms-reveal,
+    input::-ms-clear {
+      display: none;
+    }
+  }
+
+  &-eye {
+    position: absolute;
+    top: 50%;
+    right: 6px;
+    transform: translateY(-50%);
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    color: $faint;
+    background: transparent;
+    border: 0;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: color 0.15s, background 0.15s;
+
+    &:hover {
+      color: $brand-dark;
+      background: $brand-soft;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $brand;
+      outline-offset: 1px;
+    }
+
+    &[aria-pressed="true"] {
+      color: $brand-dark;
+    }
+  }
+
+  &-btn {
+    align-self: flex-start;
+    margin-top: 10px;
+    padding: 13px 34px;
+    font: inherit;
+    font-size: 15px;
+    font-weight: 700;
+    color: #fff;
+    background: linear-gradient(180deg, $brand, $brand-dark);
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 8px 18px rgba($brand-deep, 0.28);
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s, filter 0.15s;
+
+    &:hover:not(:disabled) {
+      filter: brightness(1.06);
+      transform: translateY(-1px);
+      box-shadow: 0 12px 22px rgba($brand-deep, 0.32);
+    }
+
+    &:focus-visible {
+      outline: 2px solid $brand-deep;
+      outline-offset: 2px;
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+
+  // ---------- Responsive ----------
+  @media (max-width: 760px) {
+    padding: 16px;
+
+    &-shell {
+      grid-template-columns: 1fr;
+      min-height: 0;
+    }
+
+    &-visual {
+      min-height: 150px;
+    }
+
+    &-visual-text {
+      display: none;
+    }
+
+    &-card {
+      padding: 20px 24px 32px;
+      border-top-left-radius: $curve;
+    }
+
+    &-body {
+      justify-content: flex-start;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &-btn,
+    &-eye,
+    &-field input {
+      transition: none;
+    }
+  }
+}

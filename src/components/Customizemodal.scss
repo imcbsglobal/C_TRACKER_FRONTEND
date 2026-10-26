@@ -1,0 +1,418 @@
+// Admin "Customize" dialog + its trigger button — sage theme
+$accent: #4f7a46;
+$accent-dark: #3f6839;
+$accent-soft: #e4ede0;
+$accent-ring: rgba(79, 122, 70, 0.22);
+$card: #ffffff;
+$surface-alt: #f3f6f0;
+$hover: #eef2ea;
+$border: #e3e9de;
+$border-strong: #d3dccd;
+$text: #1c261b;
+$text-2: #5d685a;
+$text-3: #93a08f;
+
+// Trigger button (sits in the filter bar)
+.cz-open {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 14px;
+  border: 1px solid $border;
+  border-radius: 10px;
+  background: #fff;
+  color: $accent-dark;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+
+  &:hover {
+    border-color: $accent;
+    background: $accent-soft;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $accent;
+    outline-offset: 1px;
+  }
+}
+
+.cz-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: rgba(28, 38, 27, 0.4);
+}
+
+.cz {
+  width: 100%;
+  max-width: 640px;
+  max-height: calc(100vh - 32px);
+  display: flex;
+  flex-direction: column;
+  background: $card;
+  color: $text;
+  border-radius: 14px;
+  box-shadow: 0 20px 60px rgba(31, 54, 28, 0.25);
+  font-family: Manrope, Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 14px;
+  overflow: hidden;
+
+  input,
+  button {
+    font-family: inherit;
+  }
+
+  button:focus-visible,
+  input:focus-visible {
+    outline: 2px solid $accent;
+    outline-offset: 1px;
+  }
+}
+
+.cz-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 20px 24px 8px;
+
+  h2 {
+    margin: 0;
+    font-size: 20px;
+  }
+
+  p {
+    margin: 4px 0 0;
+    color: $text-2;
+    font-size: 13px;
+  }
+}
+
+.cz-x {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: $text-2;
+  cursor: pointer;
+
+  &:hover {
+    background: $hover;
+  }
+}
+
+.cz-tabs {
+  display: flex;
+  gap: 4px;
+  padding: 8px 24px 0;
+  border-bottom: 1px solid $border;
+
+  button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    margin-bottom: -1px;
+    border: 0;
+    border-bottom: 2px solid transparent;
+    background: transparent;
+    color: $text-2;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+
+    &:hover {
+      color: $accent-dark;
+    }
+
+    &.on {
+      color: $accent-dark;
+      border-bottom-color: $accent;
+    }
+  }
+}
+
+.cz-n {
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: $accent-soft;
+  color: $accent-dark;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.cz-body {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: 16px 24px 24px;
+}
+
+.cz-hint,
+.cz-muted {
+  margin: 0 0 12px;
+  color: $text-2;
+  font-size: 13px;
+}
+
+.cz-alert {
+  margin: 0 0 12px;
+  padding: 10px 14px;
+  border: 1px solid #f3b9b3;
+  background: #fde3e0;
+  color: #b42a20;
+  font-size: 13px;
+}
+
+.cz-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0 0 16px;
+  padding: 0;
+  list-style: none;
+}
+
+.cz-row,
+.cz-add {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.cz-row {
+  padding: 6px 8px;
+  border: 1px solid $border;
+  border-radius: 10px;
+  background: #fff;
+}
+
+.cz-add {
+  padding-top: 14px;
+  border-top: 1px dashed $border-strong;
+  flex-wrap: wrap;
+}
+
+.cz-move {
+  display: flex;
+  flex-direction: column;
+
+  button {
+    display: grid;
+    place-items: center;
+    width: 24px;
+    height: 16px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: $text-3;
+    cursor: pointer;
+
+    &:hover:not(:disabled) {
+      color: $accent-dark;
+    }
+
+    &:disabled {
+      opacity: 0.35;
+      cursor: default;
+    }
+  }
+}
+
+.cz-name {
+  flex: 1;
+  min-width: 120px;
+  height: 36px;
+  padding: 0 10px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  color: $text;
+  font-size: 14px;
+  font-weight: 600;
+  transition: border-color 0.15s, background 0.15s;
+
+  &:hover {
+    background: $surface-alt;
+  }
+
+  &:focus {
+    border-color: $accent;
+    background: #fff;
+    box-shadow: 0 0 0 3px $accent-ring;
+    outline: 0;
+  }
+
+  &::placeholder {
+    color: $text-3;
+    font-weight: 500;
+  }
+}
+
+.cz-add .cz-name {
+  border-color: $border;
+  background: #fff;
+}
+
+.cz-tones {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.cz-dot {
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px $border-strong;
+  cursor: pointer;
+  opacity: 0.55;
+  transition: opacity 0.15s, box-shadow 0.15s;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  &.on {
+    opacity: 1;
+    box-shadow: 0 0 0 2px $text;
+  }
+}
+
+.cz-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: $text-2;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+
+  input {
+    accent-color: $accent;
+  }
+}
+
+.cz-del {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: $text-3;
+  cursor: pointer;
+
+  &:hover:not(:disabled) {
+    background: #fde3e0;
+    color: #d23a30;
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: default;
+  }
+}
+
+.cz-addbtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 36px;
+  padding: 0 16px;
+  border: 0;
+  background: $accent;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+
+  &:hover:not(:disabled) {
+    background: $accent-dark;
+  }
+
+  &:disabled {
+    background: $border-strong;
+    cursor: default;
+  }
+}
+
+@media (max-width: 560px) {
+  .cz-head,
+  .cz-body {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .cz-tabs {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .cz-row {
+    flex-wrap: wrap;
+  }
+}
+
+// ---------- Projects tab ----------
+.cz-proj {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.cz-row-flat {
+  padding-left: 12px;
+}
+
+.cz-meta {
+  color: $text-3;
+  font-size: 12.5px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.cz-members-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 32px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 8px;
+  background: $accent-soft;
+  color: $accent-dark;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+
+  &:hover {
+    background: $accent;
+    color: #fff;
+  }
+}
+
+.cz-members {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 8px 16px;
+  padding: 12px 14px;
+  border: 1px solid $border;
+  border-radius: 10px;
+  background: $surface-alt;
+}

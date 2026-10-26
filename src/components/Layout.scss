@@ -1,0 +1,1056 @@
+// ---------- Sage design tokens ----------
+$page-bg: #dfe7d8;
+$side-bg: #fbfcfa;
+$side-hover: #eef2ea;
+$side-line: #e6ebe1;
+$side-text: #4b5648;
+$side-text-strong: #1c261b;
+$side-group: #9aa497;
+
+$accent: #4f7a46;
+$accent-dark: #3f6839;
+$accent-light: #5f8c55;
+$accent-soft: #e4ede0;
+$card-bg: #f7f9f5;
+$surface: #ffffff;
+$surface-alt: #f2f5ef;
+$border: #e3e9de;
+$text: #1c261b;
+$text-2: #6f7a6c;
+
+$side-w: 264px;
+$side-w-collapsed: 76px;
+$gap: 14px;
+$bottom-h: 60px;
+$bp: 800px;
+
+$shadow: 0 1px 2px rgba(31, 54, 28, 0.05);
+$shadow-lg: 0 8px 28px rgba(31, 54, 28, 0.1);
+$font: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+// Exposed so pages rendered inside the layout can reuse the same tokens.
+.lay {
+  --c-navy: #{$accent-dark};
+  --c-orange: #{$accent};
+  --c-orange-bright: #{$accent-light};
+  --c-bg: #{$card-bg};
+  --c-surface: #{$surface};
+  --c-surface-alt: #{$surface-alt};
+  --c-border: #{$border};
+  --c-text: #{$text};
+  --c-text-2: #{$text-2};
+  --c-success: #22c55e;
+  --radius: 10px;
+  --radius-card: 16px;
+  --shadow: #{$shadow};
+}
+
+.lay {
+  display: flex;
+  gap: $gap;
+  box-sizing: border-box;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  padding: $gap;
+  background: $page-bg;
+  color: $text;
+  font-family: $font;
+
+  button,
+  a {
+    &:focus-visible {
+      outline: 2px solid $accent;
+      outline-offset: 2px;
+    }
+  }
+
+  // ---------- Sidebar ----------
+  &-side {
+    position: sticky;
+    top: $gap;
+    flex-shrink: 0;
+    width: $side-w;
+    height: calc(100vh - #{$gap * 2});
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px 10px;
+    background: $side-bg;
+    border-radius: 22px;
+    box-shadow: $shadow;
+    color: $side-text;
+    transition: width 0.2s ease;
+    overflow: hidden;
+  }
+
+  &-brand {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    min-height: 36px;
+  }
+
+  &-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+    color: $side-text-strong;
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 10px;
+  }
+
+  &-mark {
+    flex-shrink: 0;
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(160deg, $accent-light, $accent-dark);
+    color: #fff;
+    font-size: 17px;
+    font-weight: 600;
+  }
+
+  &-name,
+  &-label {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &-collapse,
+  &-close {
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    border: 1px solid $side-line;
+    border-radius: 8px;
+    background: transparent;
+    color: $text-2;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+
+    &:hover {
+      background: $side-hover;
+      color: $side-text-strong;
+    }
+  }
+
+  &-close {
+    display: none;
+  }
+
+  // Sidebar search trigger
+  &-sidesearch {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    padding: 7px 10px;
+    border: 1px solid $side-line;
+    border-radius: 10px;
+    background: #fff;
+    color: $text-2;
+    font: inherit;
+    font-size: 14px;
+    text-align: left;
+    cursor: pointer;
+    transition: border-color 0.15s;
+
+    &:hover {
+      border-color: #cfd8c9;
+    }
+  }
+
+  &-sidesearch-ico {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+  }
+
+  &-sidesearch-text {
+    flex: 1;
+    white-space: nowrap;
+  }
+
+  &-kbd {
+    padding: 2px 6px;
+    border: 1px solid $side-line;
+    border-radius: 6px;
+    background: $surface-alt;
+    color: $text-2;
+    font: inherit;
+    font-size: 11px;
+    white-space: nowrap;
+  }
+
+  &-nav {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    // slim, quiet scrollbar (only appears if the list ever gets very long)
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+
+    &:hover {
+      scrollbar-color: #c5d1bf transparent;
+    }
+
+    &::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    &::-webkit-scrollbar-button {
+      display: none;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: 999px;
+      background: transparent;
+    }
+
+    &:hover::-webkit-scrollbar-thumb {
+      background: #c5d1bf;
+    }
+  }
+
+  &-group {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+
+  &-group-title {
+    padding: 2px 10px 3px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    color: $side-group;
+    white-space: nowrap;
+  }
+
+  &-link {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 34px;
+    padding: 6px 10px;
+    border-radius: 8px;
+    color: $side-text;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background 0.15s, color 0.15s;
+
+    &:hover {
+      background: $side-hover;
+      color: $side-text-strong;
+      text-decoration: none;
+    }
+
+    &.active {
+      background: linear-gradient(180deg, $accent-light, $accent-dark);
+      color: #fff;
+      font-weight: 500;
+      box-shadow: 0 2px 8px rgba(63, 104, 57, 0.28);
+
+      .lay-ico {
+        color: #fff;
+      }
+    }
+  }
+
+  &-ico {
+    position: relative;
+    flex-shrink: 0;
+    width: 20px;
+    display: grid;
+    place-items: center;
+  }
+
+  // Notification badge
+  &-badge {
+    position: absolute;
+    top: -8px;
+    right: -10px;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    border-radius: 9px;
+    background: #e5484d;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 18px;
+    text-align: center;
+    box-sizing: border-box;
+    box-shadow: 0 0 0 2px $side-bg;
+  }
+
+  &-link.active &-badge {
+    box-shadow: 0 0 0 2px $accent-dark;
+  }
+
+  &-foot {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 6px 0;
+    border-top: 1px solid $side-line;
+  }
+
+  &-avatar {
+    flex-shrink: 0;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: $accent-soft;
+    color: $accent-dark;
+    font-size: 14px;
+    font-weight: 600;
+
+    &-sm {
+      width: 38px;
+      height: 38px;
+      color: #fff;
+      background: linear-gradient(160deg, $accent-light, $accent-dark);
+      font-size: 14px;
+    }
+  }
+
+  &-user {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    line-height: 1.3;
+    min-width: 0;
+    white-space: nowrap;
+
+    strong {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: $side-text-strong;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    small {
+      font-size: 12px;
+      color: $text-2;
+    }
+  }
+
+  &-logout {
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border: 0;
+    border-radius: 8px;
+    background: transparent;
+    color: $text-2;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+
+    &:hover {
+      background: $side-hover;
+      color: $side-text-strong;
+    }
+  }
+
+  // ---------- Collapsed (desktop) ----------
+  &.is-collapsed &-side {
+    width: $side-w-collapsed;
+  }
+
+  &.is-collapsed &-name,
+  &.is-collapsed &-label,
+  &.is-collapsed &-user,
+  &.is-collapsed &-logout,
+  &.is-collapsed &-sidesearch-text,
+  &.is-collapsed &-kbd {
+    display: none;
+  }
+
+  &.is-collapsed &-sidesearch {
+    justify-content: center;
+    padding: 8px 0;
+  }
+
+  &.is-collapsed &-group-title {
+    height: 1px;
+    margin: 3px 10px 5px;
+    padding: 0;
+    overflow: hidden;
+    background: $side-line;
+    font-size: 0;
+  }
+
+  &.is-collapsed &-brand {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  &.is-collapsed &-link {
+    justify-content: center;
+    padding: 8px 0;
+  }
+
+  &.is-collapsed &-foot {
+    justify-content: center;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  // ---------- Content ----------
+  &-content {
+    flex: 1;
+    min-width: 0;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    gap: $gap;
+  }
+
+  &-top {
+    position: relative;
+    flex-shrink: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 0 6px 0 0;
+  }
+
+  &-search {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    height: 48px;
+    padding: 0 16px;
+    background: $card-bg;
+    border-radius: 14px;
+    box-shadow: $shadow;
+    color: $text-2;
+    transition: box-shadow 0.15s;
+
+    &:focus-within {
+      box-shadow: 0 0 0 2px $accent;
+    }
+
+    input {
+      flex: 1;
+      min-width: 0;
+      height: 100%;
+      border: 0;
+      outline: 0;
+      background: transparent;
+      color: $text;
+      font: inherit;
+      font-size: 15px;
+
+      &::placeholder {
+        color: $text-2;
+      }
+
+      &::-webkit-search-cancel-button {
+        appearance: none;
+      }
+    }
+  }
+
+  &-search-ico {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+  }
+
+  &-burger {
+    display: none;
+    place-items: center;
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    border: 0;
+    border-radius: 12px;
+    background: $card-bg;
+    color: $text;
+    cursor: pointer;
+    box-shadow: $shadow;
+  }
+
+  // Account menu
+  &-account {
+    position: relative;
+  }
+
+  &-account-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 4px 8px 4px 4px;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    color: $text;
+    font: inherit;
+    cursor: pointer;
+    transition: background 0.15s;
+
+    &:hover,
+    &[aria-expanded="true"] {
+      background: rgba(255, 255, 255, 0.55);
+    }
+  }
+
+  &-account-name {
+    font-size: 15px;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  &-account-caret {
+    display: grid;
+    place-items: center;
+    color: $text-2;
+  }
+
+  &-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    z-index: 40;
+    min-width: 210px;
+    padding: 6px;
+    background: $surface;
+    border: 1px solid $border;
+    border-radius: 14px;
+    box-shadow: $shadow-lg;
+  }
+
+  &-menu-head {
+    display: flex;
+    flex-direction: column;
+    padding: 8px 10px 10px;
+    margin-bottom: 4px;
+    border-bottom: 1px solid $border;
+    line-height: 1.3;
+
+    strong {
+      color: $text;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    small {
+      color: $text-2;
+      font-size: 12px;
+    }
+  }
+
+  &-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 9px 10px;
+    border: 0;
+    border-radius: 8px;
+    background: transparent;
+    color: $text;
+    font: inherit;
+    font-size: 14px;
+    text-align: left;
+    cursor: pointer;
+
+    &:hover {
+      background: $surface-alt;
+    }
+  }
+
+  // Main rounded card
+  &-card {
+    flex: 1;
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    padding: 28px 28px 40px;
+    background: $card-bg;
+    border-radius: 24px;
+    box-shadow: $shadow;
+  }
+
+  &-pagehead {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  &-pagehead-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+  }
+
+  // Pages can portal controls here (e.g. the task view switch)
+  &-head-slot {
+    display: contents;
+  }
+
+  &-pagehead-text {
+    min-width: 0;
+
+    h1 {
+      margin: 0;
+      color: $text;
+      font-size: 32px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+    }
+
+    p {
+      margin: 6px 0 0;
+      color: $text-2;
+      font-size: 16px;
+    }
+  }
+
+  &-new {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    border-radius: 12px;
+    background: linear-gradient(180deg, $accent-light, $accent-dark);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 500;
+    text-decoration: none;
+    white-space: nowrap;
+    box-shadow: 0 2px 8px rgba(63, 104, 57, 0.28);
+    transition: filter 0.15s;
+
+    &:hover {
+      filter: brightness(1.06);
+      color: #fff;
+      text-decoration: none;
+    }
+  }
+
+  // Fixed card: only this area scrolls (pages decide what scrolls inside it)
+  &-main {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    overflow-y: auto;
+
+    // Pages that manage their own inner scroll (task list) don't scroll here
+    &:has(> .cl) {
+      overflow: hidden;
+    }
+  }
+
+  &-backdrop {
+    display: none;
+  }
+
+  &-bottom {
+    display: none;
+  }
+
+  // ---------- Mobile ----------
+  @media (max-width: $bp) {
+    padding: 0;
+    gap: 0;
+    height: auto;
+    min-height: 100vh;
+    overflow: visible;
+
+    // Sidebar becomes a drawer
+    &-side {
+      position: fixed;
+      z-index: 30;
+      left: 0;
+      top: 0;
+      width: $side-w;
+      height: 100vh;
+      border-radius: 0 22px 22px 0;
+      transform: translateX(-100%);
+      transition: transform 0.2s ease;
+    }
+
+    &.is-open &-side {
+      transform: translateX(0);
+      box-shadow: 0 0 40px rgba(0, 0, 0, 0.3);
+    }
+
+    // ignore the collapsed state on mobile
+    &.is-collapsed &-side {
+      width: $side-w;
+    }
+    &.is-collapsed &-name,
+    &.is-collapsed &-label,
+    &.is-collapsed &-sidesearch-text {
+      display: block;
+    }
+    &.is-collapsed &-kbd {
+      display: inline;
+    }
+    &.is-collapsed &-user {
+      display: flex;
+    }
+    &.is-collapsed &-logout {
+      display: grid;
+    }
+    &.is-collapsed &-sidesearch {
+      justify-content: flex-start;
+      padding: 7px 10px;
+    }
+    &.is-collapsed &-link {
+      justify-content: flex-start;
+      padding: 6px 10px;
+    }
+    &.is-collapsed &-brand {
+      flex-direction: row;
+    }
+    &.is-collapsed &-group-title {
+      height: auto;
+      margin: 0;
+      padding: 2px 10px 3px;
+      background: none;
+      font-size: 12px;
+    }
+    &.is-collapsed &-foot {
+      justify-content: flex-start;
+      padding: 10px 6px 0;
+    }
+
+    &-collapse {
+      display: none;
+    }
+
+    &-close {
+      display: grid;
+    }
+
+    &-burger {
+      display: grid;
+    }
+
+    &-content {
+      gap: 10px;
+    }
+
+    &-top {
+      position: sticky;
+      top: 0;
+      padding: 10px 12px 0;
+      gap: 10px;
+    }
+
+    &-search {
+      height: 44px;
+    }
+
+    &-account-name,
+    &-account-caret {
+      display: none;
+    }
+
+    &-account-btn {
+      padding: 0;
+    }
+
+    &-card {
+      overflow: visible;
+      margin: 0 10px calc(#{$bottom-h} + 24px);
+      padding: 20px 16px 28px;
+      border-radius: 20px;
+      gap: 16px;
+    }
+
+    &-main {
+      display: block;
+      overflow: visible;
+    }
+
+    &-pagehead {
+      flex-wrap: wrap;
+    }
+
+    &-pagehead-text h1 {
+      font-size: 24px;
+    }
+
+    &-pagehead-text p {
+      font-size: 14px;
+    }
+
+    // New complaint button gives way to the bottom nav
+    &-new {
+      display: none;
+    }
+
+    &.is-open &-backdrop {
+      display: block;
+      position: fixed;
+      inset: 0;
+      z-index: 20;
+      background: rgba(20, 30, 18, 0.45);
+    }
+
+    // Bottom navigation
+    &-bottom {
+      position: fixed;
+      z-index: 15;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: flex;
+      height: calc(#{$bottom-h} + env(safe-area-inset-bottom, 0px));
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+      background: $side-bg;
+      border-top: 1px solid $border;
+    }
+
+    &-bn-link {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      color: $text-2;
+      font-size: 11px;
+      text-decoration: none;
+
+      .lay-ico .lay-badge {
+        box-shadow: 0 0 0 2px $side-bg;
+      }
+
+      &.active {
+        color: $accent-dark;
+        font-weight: 600;
+
+        .lay-ico {
+          color: $accent-dark;
+        }
+      }
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
+
+    &-bn-label {
+      max-width: 100%;
+      padding: 0 4px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lay-side,
+  .lay-link {
+    transition: none;
+  }
+}
+
+// ---------- Project history button (page header) ----------
+.lay-hist {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 18px;
+  border: 1px solid $border;
+  border-radius: 12px;
+  background: $surface;
+  color: $accent-dark;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow: $shadow;
+  transition: background 0.15s, border-color 0.15s, color 0.15s, transform 0.15s;
+
+  svg {
+    flex-shrink: 0;
+  }
+
+  &:hover {
+    background: $accent-soft;
+    border-color: $accent-light;
+    color: $accent-dark;
+  }
+
+  &:active {
+    transform: translateY(1px);
+  }
+
+  &:focus-visible {
+    outline: 2px solid $accent;
+    outline-offset: 2px;
+  }
+
+  @media (max-width: $bp) {
+    padding: 10px 14px;
+    font-size: 14px;
+  }
+}
+
+// ---------- Logout confirmation dialog ----------
+.lay-confirm-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: rgba(20, 30, 18, 0.45);
+  animation: lay-confirm-fade 0.15s ease;
+}
+
+.lay-confirm {
+  width: 100%;
+  max-width: 380px;
+  padding: 24px;
+  text-align: center;
+  background: $surface;
+  border: 1px solid $border;
+  border-radius: 20px;
+  box-shadow: $shadow-lg;
+  font-family: $font;
+  animation: lay-confirm-pop 0.18s ease;
+
+  h2 {
+    margin: 12px 0 6px;
+    color: $text;
+    font-size: 20px;
+    font-weight: 600;
+  }
+
+  p {
+    margin: 0 0 20px;
+    color: $text-2;
+    font-size: 15px;
+  }
+}
+
+.lay-confirm-ico {
+  display: inline-grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: #fdecec;
+  color: #e5484d;
+
+  svg {
+    width: 22px;
+    height: 22px;
+  }
+}
+
+.lay-confirm-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.lay-confirm-btn {
+  flex: 1;
+  padding: 11px 16px;
+  border: 1px solid $border;
+  border-radius: 12px;
+  background: $surface;
+  color: $text;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s, filter 0.15s;
+
+  &:hover:not(:disabled) {
+    background: $surface-alt;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $accent;
+    outline-offset: 2px;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: default;
+  }
+
+  &.is-danger {
+    border-color: transparent;
+    background: #e5484d;
+    color: #fff;
+
+    &:hover:not(:disabled) {
+      background: #e5484d;
+      filter: brightness(1.08);
+    }
+  }
+}
+
+@keyframes lay-confirm-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes lay-confirm-pop {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lay-confirm-backdrop,
+  .lay-confirm {
+    animation: none;
+  }
+}

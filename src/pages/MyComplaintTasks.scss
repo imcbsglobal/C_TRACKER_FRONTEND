@@ -1,0 +1,640 @@
+// Support complaint page.
+// A calm page with a bold edge: big title with an accent bar, the issue as a raised
+// card, the status + escalation card, then the follow-ups (styled by ComplaintDetail.scss)
+// and the Escalate dialog.
+
+$ink: #1f1d1a;
+$ink-2: #6b6964;
+$ink-3: #9b9a97;
+$line: rgba(31, 29, 26, 0.08);
+$line-strong: rgba(31, 29, 26, 0.16);
+$hover: rgba(31, 29, 26, 0.06);
+$hover-soft: rgba(31, 29, 26, 0.035);
+$callout: #f6f5f2;
+$card: #fff;
+$accent: #2383e2;
+$accent-2: #6a5cf0;
+$accent-dark: #0b6ec5;
+$accent-soft: rgba(35, 131, 226, 0.1);
+$accent-ring: rgba(35, 131, 226, 0.28);
+$danger: #eb5757;
+$danger-bg: rgba(235, 87, 87, 0.1);
+
+$shadow-sm: 0 1px 2px rgba(15, 15, 15, 0.05), 0 1px 1px rgba(15, 15, 15, 0.03);
+$shadow-md: 0 6px 20px rgba(15, 15, 15, 0.07), 0 1px 3px rgba(15, 15, 15, 0.05);
+
+// tag colours: background, text, dot/border
+$tones: (
+  "grey": (#e9e8e6, #32302c, #9b9a97),
+  "blue": (#d9eaf7, #123a57, #2383e2),
+  "yellow": (#fdecc8, #5a3a0a, #e0a020),
+  "green": (#d9f0df, #14532d, #2fa35c),
+  "purple": (#e9dff3, #44236a, #8a5bd0),
+  "red": (#ffe0da, #6b1a12, #eb5757),
+);
+
+$chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23555' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+
+@keyframes mct-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes mct-pop {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.tp.mct {
+  color: $ink;
+
+  // ---------- header ----------
+  .mct-title {
+    position: relative;
+    margin: 4px 0 6px;
+    padding-bottom: 14px;
+    color: $ink;
+    font-size: 36px;
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.025em;
+    word-break: break-word;
+
+    // accent bar under the title
+    &::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 56px;
+      height: 5px;
+      border-radius: 3px;
+      background: linear-gradient(90deg, $accent, $accent-2);
+    }
+
+    @media (max-width: 700px) {
+      font-size: 27px;
+    }
+  }
+
+  .tp-sub {
+    margin: 10px 0 18px;
+    color: $ink-3;
+    font-size: 13px;
+  }
+
+  .mct-muted {
+    margin: 0;
+    color: $ink-2;
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  // ---------- single column ----------
+  .mct-grid {
+    display: block;
+    width: 100%;
+    max-width: none;
+  }
+
+  .mct-main {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    min-width: 0;
+    margin-top: 18px;
+  }
+
+  // ---------- issue: raised card with an accent edge ----------
+  .mct-issue {
+    position: relative;
+    padding: 16px 20px 16px 24px;
+    border: 1px solid $line;
+    border-radius: 14px;
+    background: $card;
+    box-shadow: $shadow-sm;
+    overflow: hidden;
+
+    &::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 5px;
+      background: linear-gradient(180deg, $accent, $accent-2);
+    }
+  }
+
+  .mct-issue-top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 12px;
+    margin-bottom: 10px;
+
+    h3 {
+      margin: 0;
+      color: $ink-3;
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+    }
+
+    .tp-count {
+      padding: 1px 8px;
+      border-radius: 999px;
+      background: $hover;
+      color: $ink-2;
+      font-size: 11.5px;
+      font-weight: 600;
+    }
+  }
+
+  .mct-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 0 0 0 auto;
+    padding: 0;
+    list-style: none;
+
+    @media (max-width: 700px) {
+      width: 100%;
+      margin-left: 0;
+    }
+
+    li {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 10px 3px 4px;
+      border: 1px solid $line;
+      border-radius: 999px;
+      background: $callout;
+      color: $ink-2;
+      font-size: 12.5px;
+      font-weight: 500;
+    }
+  }
+
+  .mct-chip-av {
+    display: grid;
+    place-items: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, $accent, $accent-2);
+    color: #fff;
+    font-size: 9px;
+    font-weight: 700;
+  }
+
+  .mct-desc {
+    margin: 0;
+    color: $ink;
+    font-size: 15px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+
+    &.is-clamped {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+  }
+
+  .mct-more {
+    margin: 6px 0 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: $accent-dark;
+    font: inherit;
+    font-size: 12.5px;
+    font-weight: 600;
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  // ---------- status card ----------
+  .mct-block {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 16px 20px;
+    border: 1px solid $line;
+    border-radius: 14px;
+    background: $card;
+    box-shadow: $shadow-sm;
+
+    .mct-muted {
+      padding: 9px 12px;
+      border-left: 3px solid $line-strong;
+      border-radius: 0 8px 8px 0;
+      background: $callout;
+      font-size: 13px;
+    }
+  }
+
+  .mct-block-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 14px;
+    margin: 0;
+  }
+
+  // small eyebrow label
+  .mct-h {
+    margin: 0;
+    color: $ink-3;
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+  }
+
+  // ---------- status pill: dot + label (a select when editable) ----------
+  .mct-pill {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    height: 32px;
+    padding: 0 14px 0 30px;
+    border: 1px solid transparent;
+    border-radius: 9px;
+    font: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+
+    @each $name, $set in $tones {
+      &.is-#{$name} {
+        background-color: nth($set, 1);
+        border-color: rgba(nth($set, 3), 0.35);
+        color: nth($set, 2);
+      }
+    }
+  }
+
+  span.mct-pill::before {
+    content: "";
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    width: 8px;
+    height: 8px;
+    margin-top: -4px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+
+  select.mct-pill {
+    appearance: none;
+    -webkit-appearance: none;
+    padding: 0 32px 0 30px;
+    background-image: radial-gradient(circle at center, currentColor 0 4px, transparent 4.6px), $chevron;
+    background-repeat: no-repeat;
+    background-size: 10px 10px, 12px 12px;
+    background-position: 12px center, right 10px center;
+    cursor: pointer;
+    transition: filter 0.12s, box-shadow 0.12s;
+
+    &:hover:not(:disabled) {
+      filter: brightness(0.97);
+      box-shadow: $shadow-sm;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $accent-ring;
+      outline-offset: 2px;
+    }
+
+    &:disabled {
+      cursor: default;
+      opacity: 0.65;
+    }
+  }
+
+  // ---------- buttons ----------
+  .mct-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    height: 34px;
+    padding: 0 16px;
+    border: 0;
+    border-radius: 8px;
+    background: linear-gradient(135deg, $accent, $accent-dark);
+    color: #fff;
+    font: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+    cursor: pointer;
+    box-shadow: 0 1px 2px rgba(35, 131, 226, 0.4);
+    transition: transform 0.12s, box-shadow 0.12s, filter 0.12s;
+
+    &:hover:not(:disabled) {
+      box-shadow: 0 4px 12px rgba(35, 131, 226, 0.35);
+      transform: translateY(-1px);
+    }
+
+    &:active:not(:disabled) {
+      transform: none;
+    }
+
+    &:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    &.is-ghost {
+      background: transparent;
+      box-shadow: none;
+      color: $ink-2;
+
+      &:hover:not(:disabled) {
+        background: $hover;
+        box-shadow: none;
+        transform: none;
+      }
+    }
+  }
+
+  // ---------- escalation chip (on the status card) ----------
+  .mct-esc-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 32px;
+    padding: 0 12px 0 10px;
+    border: 1px solid rgba(nth(map-get($tones, "grey"), 3), 0.35);
+    border-radius: 9px;
+    background: nth(map-get($tones, "grey"), 1);
+    color: nth(map-get($tones, "grey"), 2);
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+
+    svg {
+      width: 15px;
+      height: 15px;
+    }
+
+    &.is-admin {
+      background: nth(map-get($tones, "yellow"), 1);
+      border-color: rgba(nth(map-get($tones, "yellow"), 3), 0.45);
+      color: nth(map-get($tones, "yellow"), 2);
+    }
+
+    &.is-dev {
+      background: nth(map-get($tones, "blue"), 1);
+      border-color: rgba(nth(map-get($tones, "blue"), 3), 0.4);
+      color: nth(map-get($tones, "blue"), 2);
+    }
+
+    &.is-done {
+      background: nth(map-get($tones, "green"), 1);
+      border-color: rgba(nth(map-get($tones, "green"), 3), 0.4);
+      color: nth(map-get($tones, "green"), 2);
+    }
+  }
+
+  // ---------- modal (add / escalate) ----------
+  .mct-modal-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: grid;
+    place-items: center;
+    padding: 16px;
+    background: rgba(15, 15, 20, 0.5);
+    backdrop-filter: blur(3px);
+    animation: mct-fade 0.15s ease;
+  }
+
+  .mct-modal {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 520px;
+    max-height: calc(100vh - 32px);
+    padding: 26px 26px 20px;
+    border-radius: 16px;
+    background: $card;
+    box-shadow: 0 24px 64px rgba(15, 15, 20, 0.32);
+    overflow-y: auto;
+    animation: mct-pop 0.18s ease;
+
+    // accent strip on top
+    &::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 5px;
+      background: linear-gradient(90deg, $accent, $accent-2);
+    }
+  }
+
+  .mct-modal-title {
+    margin: 0 0 16px;
+    color: $ink;
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.015em;
+  }
+
+  .mct-modal-lbl {
+    margin: 0 0 6px;
+    color: $ink-2;
+    font-size: 12.5px;
+    font-weight: 600;
+
+    span {
+      color: $ink-3;
+      font-weight: 400;
+    }
+  }
+
+  .mct-modal-input {
+    width: 100%;
+    height: 42px;
+    margin-bottom: 14px;
+    padding: 0 12px;
+    border: 1px solid $line-strong;
+    border-radius: 9px;
+    background: $card;
+    color: $ink;
+    font: inherit;
+    font-size: 14.5px;
+    transition: border-color 0.12s, box-shadow 0.12s;
+
+    &::placeholder {
+      color: $ink-3;
+    }
+
+    &:focus {
+      border-color: $accent;
+      box-shadow: 0 0 0 3px $accent-ring;
+      outline: none;
+    }
+  }
+
+  .mct-modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 8px;
+    padding-top: 14px;
+    border-top: 1px solid $line;
+
+    .mct-btn {
+      height: 38px;
+      padding: 0 20px;
+    }
+  }
+
+  // ---------- escalate dialog ----------
+  .mct-esc {
+    max-width: 500px;
+
+    .mct-esc-task {
+      margin: -6px 0 18px;
+      padding: 9px 12px;
+      border-radius: 8px;
+      background: $callout;
+      color: $ink-2;
+      font-size: 14px;
+      font-weight: 500;
+      overflow-wrap: anywhere;
+    }
+
+    .mct-esc-options {
+      display: grid;
+      gap: 10px;
+      margin: 4px 0 18px;
+    }
+
+    .mct-esc-opt {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 14px;
+      border: 1.5px solid $line-strong;
+      border-radius: 12px;
+      background: $card;
+      cursor: pointer;
+      transition: border-color 0.12s, background 0.12s, box-shadow 0.12s;
+
+      input {
+        margin-top: 3px;
+        accent-color: $accent;
+      }
+
+      b {
+        display: block;
+        color: $ink;
+        font-size: 14.5px;
+        font-weight: 700;
+      }
+
+      small {
+        display: block;
+        margin-top: 3px;
+        color: $ink-2;
+        font-size: 12.5px;
+        line-height: 1.45;
+      }
+
+      &:hover:not(.is-off) {
+        background: $hover-soft;
+      }
+
+      &.is-on {
+        border-color: $accent;
+        background: $accent-soft;
+        box-shadow: 0 0 0 3px rgba(35, 131, 226, 0.12);
+      }
+
+      &.is-off {
+        opacity: 0.55;
+        cursor: not-allowed;
+      }
+    }
+
+    .mct-esc-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+
+      @media (max-width: 700px) {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    // the note is a textarea, so undo the fixed input height
+    .mct-esc-note {
+      height: auto;
+      min-height: 84px;
+      padding: 10px 12px;
+      line-height: 1.5;
+      resize: vertical;
+    }
+
+    .mct-esc-privacy {
+      margin: -6px 0 10px;
+      color: $ink-3;
+      font-size: 12px;
+    }
+
+    .mct-esc-err {
+      margin: 0 0 8px;
+      padding: 9px 12px;
+      border-radius: 8px;
+      background: $danger-bg;
+      color: $danger;
+      font-size: 13px;
+      font-weight: 600;
+    }
+  }
+
+  // ---------- mobile ----------
+  @media (max-width: 700px) {
+    .mct-issue,
+    .mct-block {
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+
+    .mct-issue {
+      padding-left: 20px;
+    }
+
+    .mct-modal {
+      padding: 22px 18px 16px;
+    }
+  }
+}

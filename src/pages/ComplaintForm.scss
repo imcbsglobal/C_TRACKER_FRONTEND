@@ -1,0 +1,461 @@
+// Complaint form — matches the sage task board (sharp edges, Manrope).
+$accent: #4f7a46;
+$accent-dark: #3f6839;
+$accent-light: #5f8c55;
+$accent-soft: #e4ede0;
+$accent-ring: rgba(79, 122, 70, 0.22);
+$navy: #1c261b;
+$bg: #ffffff;
+$surface: #ffffff;
+$surface-alt: #f3f6f0;
+$hover: #eef2ea;
+$head-bg: #dbe5d4;
+$border: #e3e9de;
+$border-strong: #d3dccd;
+$text: #1c261b;
+$text-2: #5d685a;
+$text-3: #93a08f;
+$label: #1c261b;
+$danger: #d23a30;
+
+$tones: (
+  "grey": #ecefe9,
+  "green": #dcf2dc,
+  "yellow": #fcecc6,
+  "red": #fde3e0,
+  "purple": #ebe2fb,
+);
+$tones-text: (
+  "grey": #566052,
+  "green": #2c7a38,
+  "yellow": #9a6200,
+  "red": #d23a30,
+  "purple": #6a3fc0,
+);
+$dots: (
+  "grey": #93a08f,
+  "green": #2c7a38,
+  "yellow": #d99100,
+  "red": #d23a30,
+  "purple": #6a3fc0,
+);
+$priority-words: (
+  "green": ("low"),
+  "yellow": ("medium", "normal"),
+  "red": ("high"),
+  "purple": ("urgent", "critical"),
+);
+
+$radius: 8px;
+$radius-lg: 14px;
+
+$caret: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2393a08f' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+
+.cf {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  color: $text;
+  font-size: 14px;
+  font-family: Manrope, Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+
+  button,
+  input,
+  select,
+  textarea {
+    font-family: inherit;
+  }
+
+  button:focus-visible,
+  a:focus-visible,
+  select:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible {
+    outline: 2px solid $accent;
+    outline-offset: 1px;
+  }
+
+  &-head {
+    margin-bottom: 20px;
+    padding-left: 14px;
+    border-left: 4px solid $accent;
+
+    h2 {
+      margin: 0 0 4px;
+      color: $navy;
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    p {
+      margin: 0;
+      color: $text-2;
+      font-size: 14px;
+    }
+  }
+
+  &-alert {
+    margin-bottom: 16px;
+    padding: 10px 14px;
+    border: 1px solid #f3b9b3;
+    border-left: 4px solid $danger;
+    border-radius: $radius;
+    background: #fde3e0;
+    color: #b42a20;
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  &-alert-ok {
+    background: #dcf2dc;
+    border-color: #b6dcb8;
+    border-left-color: #2c7a38;
+    color: #2c7a38;
+  }
+
+  // One flat panel
+  &-card {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: $surface;
+    border: 1px solid $border-strong;
+    border-radius: $radius-lg;
+    box-shadow: 0 1px 2px rgba(31, 54, 28, 0.05);
+  }
+
+  &-section {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    padding: 24px 32px;
+    border-bottom: 1px solid $border;
+  }
+
+  // Plain section heading
+  &-section-title {
+    margin: 0;
+    padding: 0 0 10px;
+    border-bottom: 1px solid $border;
+    background: transparent;
+    color: $accent-dark;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  &-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  &-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+
+    label {
+      color: $label;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      box-sizing: border-box;
+      height: 40px;
+      padding: 0 12px;
+      color: $text;
+      font: inherit;
+      font-size: 14px;
+      background-color: $surface;
+      border: 1px solid $border-strong;
+      border-radius: $radius;
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s, background-color 0.15s;
+
+      &::placeholder {
+        color: $text-3;
+      }
+
+      &:hover {
+        background-color: $surface-alt;
+        border-color: #bccab5;
+      }
+
+      &:focus {
+        background-color: $surface;
+        border-color: $accent;
+        box-shadow: 0 0 0 3px $accent-ring;
+        outline: none;
+      }
+
+      &.has-error {
+        border-color: $danger;
+
+        &:focus {
+          box-shadow: 0 0 0 3px rgba($danger, 0.18);
+        }
+      }
+    }
+
+    select {
+      padding-right: 34px;
+      background-image: $caret;
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      cursor: pointer;
+      -webkit-appearance: none;
+      appearance: none;
+
+      option {
+        background: #fff;
+        color: $text;
+      }
+    }
+
+    textarea {
+      height: auto;
+      min-height: 130px;
+      padding: 10px 12px;
+      line-height: 1.5;
+      resize: vertical;
+    }
+  }
+
+  &-req {
+    color: $danger;
+  }
+
+  &-err {
+    color: $danger;
+    font-size: 12.5px;
+  }
+
+  &-count {
+    align-self: flex-end;
+    color: $text-3;
+    font-size: 12px;
+  }
+
+  &-assignee {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    select {
+      flex: 1;
+    }
+  }
+
+  &-avatar {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: $radius;
+    background: map-get($tones, "grey");
+    color: $text-2;
+    font-size: 13px;
+    font-weight: 700;
+
+    &.on {
+      background: $accent;
+      color: #fff;
+    }
+  }
+
+  // ---------- Priority (same tag colours as the list) ----------
+  &-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  &-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: 36px;
+    padding: 0 16px;
+    color: $label;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    background: $surface;
+    border: 1px solid $border-strong;
+    border-radius: $radius;
+    cursor: pointer;
+    transition: background-color 0.15s, border-color 0.15s, color 0.15s;
+
+    &::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: map-get($dots, "grey");
+    }
+
+    &:hover {
+      background: $surface-alt;
+      border-color: #bccab5;
+    }
+
+    &.active {
+      background: map-get($tones, "grey");
+      border-color: map-get($dots, "grey");
+      color: map-get($tones-text, "grey");
+      font-weight: 700;
+    }
+
+    @each $tone, $words in $priority-words {
+      @each $w in $words {
+        &[class*="p-#{$w}" i] {
+          &::before {
+            background: map-get($dots, $tone);
+          }
+
+          &.active {
+            background: map-get($tones, $tone);
+            border-color: map-get($dots, $tone);
+            color: map-get($tones-text, $tone);
+          }
+        }
+      }
+    }
+  }
+
+  // ---------- Actions ----------
+  &-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 16px 32px;
+    background: $surface-alt;
+    border-top: 1px solid $border-strong;
+  }
+
+  &-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    padding: 0 22px;
+    font: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    border: 1px solid transparent;
+    border-radius: $radius;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.15s, border-color 0.15s, color 0.15s, filter 0.15s;
+
+    &-primary {
+      color: #fff;
+      background: linear-gradient(180deg, $accent-light, $accent-dark);
+      box-shadow: 0 2px 8px rgba(63, 104, 57, 0.28);
+
+      &:hover:not(:disabled) {
+        filter: brightness(1.06);
+        color: #fff;
+      }
+
+      &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+    }
+
+    &-ghost {
+      color: $accent-dark;
+      background: $surface;
+      border-color: $border-strong;
+
+      &:hover {
+        background: $accent-soft;
+        border-color: $accent;
+        text-decoration: none;
+      }
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .cf {
+    &-head h2 {
+      font-size: 24px;
+    }
+
+    &-section {
+      padding: 18px 16px;
+    }
+
+    &-row {
+      grid-template-columns: 1fr;
+    }
+
+    &-actions {
+      flex-direction: column-reverse;
+      padding: 16px;
+
+      .cf-btn {
+        width: 100%;
+        height: 44px;
+      }
+    }
+  }
+}
+
+// ---------- Admin "open a case" intro + image drop zone ----------
+.cf-intro {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: 16px;
+  padding: 12px 16px;
+  border: 1px solid $border;
+  border-left: 4px solid $accent;
+  border-radius: $radius;
+  background: $surface-alt;
+
+  strong {
+    color: $navy;
+    font-size: 15px;
+  }
+
+  span {
+    color: $text-2;
+    font-size: 13px;
+  }
+}
+
+.cf-drop {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 16px;
+  border: 1.5px dashed $border-strong;
+  border-radius: $radius;
+  background: $surface-alt;
+  transition: border-color 0.15s, background 0.15s;
+
+  &.is-over {
+    border-color: $accent;
+    background: $accent-soft;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cf * {
+    transition: none !important;
+  }
+}

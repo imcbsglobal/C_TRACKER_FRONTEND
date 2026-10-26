@@ -1,0 +1,732 @@
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap");
+
+// Projects page: same sage theme and table structure as the tasks table view.
+$accent: #4f7a46;
+$accent-dark: #3f6839;
+$accent-soft: #e4ede0;
+$card: #ffffff;
+$surface-alt: #f3f6f0;
+$hover: #eef2ea;
+$border: #e3e9de;
+$border-strong: #d3dccd;
+$text: #1c261b;
+$text-2: #5d685a;
+$text-3: #93a08f;
+$shadow: 0 1px 2px rgba(31, 54, 28, 0.05);
+$bp: 800px;
+
+// aliases used by the modal below
+$line: $border;
+$ink: $text;
+$muted: $text-2;
+$danger: #d23a30;
+
+.pj {
+  flex: 1;
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  color: $text;
+  font-family: Manrope, Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+
+  input,
+  button,
+  select {
+    font-family: inherit;
+  }
+
+  &-muted {
+    color: $text-2;
+    font-size: 14px;
+    margin: 0;
+  }
+
+  &-none {
+    color: $text-3;
+    font-size: 12.5px;
+  }
+
+  &-alert {
+    background: #fde3e0;
+    color: $danger;
+    border: 1px solid #f3b9b3;
+    border-radius: 12px;
+    padding: 10px 14px;
+    font-size: 13px;
+  }
+
+  &-add {
+    border: 0;
+    cursor: pointer;
+    font: inherit;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  // ---------- Type selector (Development / Support) ----------
+  &-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  &-tabs {
+    display: inline-flex;
+    gap: 4px;
+    max-width: 100%;
+    padding: 4px;
+    background: $surface-alt;
+    border: 1px solid $border-strong;
+    border-radius: 12px;
+  }
+
+  &-tab {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 36px;
+    padding: 0 16px;
+    font: inherit;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: $text-2;
+    background: transparent;
+    border: 0;
+    border-radius: 9px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.15s, color 0.15s, box-shadow 0.15s;
+
+    span {
+      min-width: 22px;
+      padding: 1px 7px;
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 18px;
+      text-align: center;
+      color: $text-2;
+      background: #fff;
+      border-radius: 999px;
+    }
+
+    &:hover:not(.on) {
+      color: $text;
+      background: rgba(79, 122, 70, 0.1);
+    }
+
+    &.on {
+      color: $accent-dark;
+      background: #fff;
+      box-shadow: 0 1px 3px rgba(31, 54, 28, 0.14), inset 0 0 0 1.5px $accent;
+
+      span {
+        color: $accent-dark;
+        background: $accent-soft;
+      }
+    }
+  }
+
+  &-sub {
+    margin: -6px 0 0;
+    font-size: 12.5px;
+    color: $text-2;
+  }
+
+  &-empty {
+    border: 1.5px dashed $border-strong;
+    border-radius: 14px;
+    padding: 36px 20px;
+    text-align: center;
+
+    p {
+      margin: 6px 0 0;
+      color: $text-2;
+      font-size: 14px;
+    }
+  }
+
+  // ---------- Table (same structure as the tasks table view) ----------
+  &-tv {
+    flex: 0 1 auto;
+    min-width: 0;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border-radius: 0;
+    background: $card;
+    box-shadow: $shadow;
+  }
+
+  &-thead {
+    flex-shrink: 0;
+    overflow: hidden;
+    scrollbar-gutter: stable;
+    scrollbar-width: thin;
+    background: #dbe5d4;
+    border-bottom: 1px solid $border-strong;
+  }
+
+  &-body {
+    flex: 1 1 auto;
+    min-width: 0;
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-gutter: stable;
+    scrollbar-width: thin;
+    scrollbar-color: #c5d1bf transparent;
+  }
+
+  &-table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: separate;
+    border-spacing: 0;
+
+    th,
+    td {
+      padding: 0 10px;
+      border-bottom: 1px solid $border;
+      border-right: 1px solid $border;
+      text-align: left;
+      vertical-align: middle;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    th {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      height: 36px;
+      border-right-color: #c3d0bb;
+      box-shadow: 0 1px 0 $border;
+      background: #dbe5d4;
+      color: $text;
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    th:last-child,
+    td:last-child {
+      border-right: 0;
+    }
+
+    td {
+      height: 46px;
+      font-size: 12.5px;
+      font-weight: 500;
+      word-break: break-word;
+    }
+
+    tbody tr {
+      transition: background 0.12s;
+
+      &:hover {
+        background: $surface-alt;
+      }
+
+      &:last-child td {
+        border-bottom: 0;
+      }
+    }
+  }
+
+  &-cell-name {
+    color: $text;
+    font-weight: 700 !important;
+    font-size: 13px !important;
+  }
+
+  &-pill {
+    display: inline-block;
+    min-width: 24px;
+    padding: 3px 10px;
+    border-radius: 0;
+    background: #ecefe9;
+    color: #566052;
+    font-size: 12px;
+    font-weight: 600;
+    text-align: center;
+
+    &.is-open {
+      background: #dfeafb;
+      color: #2461c4;
+    }
+  }
+
+  &-chips {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  &-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    max-width: 100%;
+    padding: 2px 8px 2px 3px;
+    border-radius: 0;
+    background: $accent-soft;
+    color: $accent-dark;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+
+    &-more {
+      padding: 2px 8px;
+      background: #ecefe9;
+      color: #566052;
+    }
+  }
+
+  &-av {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #fff;
+    color: $accent-dark;
+    font-size: 10px;
+    font-weight: 700;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+  }
+
+  &-row-actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  &-icon {
+    display: grid;
+    place-items: center;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: #e3edfb;
+    color: #2461c4;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+
+    &:hover {
+      background: #2461c4;
+      color: #fff;
+    }
+
+    &-danger {
+      background: #fde3e0;
+      color: $danger;
+
+      &:hover {
+        background: $danger;
+        color: #fff;
+      }
+    }
+  }
+
+  button:focus-visible {
+    outline: 2px solid $accent;
+    outline-offset: 1px;
+  }
+
+  // ----- modal -----
+  &-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(20, 28, 18, 0.45);
+    display: grid;
+    place-items: center;
+    padding: 16px;
+    z-index: 1000;
+  }
+
+  &-modal {
+    background: #fff;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 480px;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+    color: $ink;
+
+    h2 {
+      margin: 0;
+      font-size: 18px;
+    }
+  }
+
+  &-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    > span {
+      font-size: 13px;
+      font-weight: 600;
+
+      em {
+        font-style: normal;
+        font-weight: 400;
+        color: $muted;
+      }
+    }
+
+    select,
+    input[type="text"],
+    input:not([type]),
+    input[type="search"] {
+      border: 1px solid $line;
+      border-radius: 10px;
+      padding: 10px 12px;
+      font: inherit;
+      font-size: 14px;
+      width: 100%;
+      box-sizing: border-box;
+      background: #fff;
+
+      &:focus {
+        outline: 2px solid $accent-soft;
+        border-color: $accent;
+      }
+    }
+
+    select {
+      cursor: pointer;
+    }
+  }
+
+  &-pick-tools {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+
+  &-link {
+    border: 0;
+    background: none;
+    color: $accent;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  &-pick {
+    list-style: none;
+    margin: 0;
+    padding: 4px;
+    border: 1px solid $line;
+    border-radius: 10px;
+    max-height: 220px;
+    overflow-y: auto;
+
+    label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 7px 8px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+
+      &:hover {
+        background: #f5f7f3;
+      }
+
+      &.on {
+        background: #eef7ee;
+      }
+    }
+
+    input {
+      accent-color: $accent;
+    }
+  }
+
+  &-empty-row {
+    padding: 12px;
+    text-align: center;
+    color: $muted;
+    font-size: 13px;
+  }
+
+  &-hint {
+    color: $muted;
+    font-size: 12px;
+  }
+
+  &-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 4px;
+  }
+
+  &-btn {
+    border: 1px solid $line;
+    background: #fff;
+    border-radius: 10px;
+    padding: 9px 16px;
+    font: inherit;
+    font-size: 14px;
+    cursor: pointer;
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: default;
+    }
+
+    &-primary {
+      background: $accent;
+      border-color: $accent;
+      color: #fff;
+      font-weight: 600;
+    }
+  }
+
+  // ---------- Mobile: rows become cards ----------
+  @media (max-width: $bp) {
+    height: auto;
+
+    &-tabs {
+      display: flex;
+      width: 100%;
+    }
+
+    &-tab {
+      flex: 1 1 0;
+      padding: 0 8px;
+    }
+
+    &-add {
+      width: 100%;
+      justify-content: center;
+    }
+
+    &-tv {
+      overflow: visible;
+      background: transparent;
+      box-shadow: none;
+    }
+
+    &-thead {
+      display: none;
+    }
+
+    &-body {
+      overflow: visible;
+    }
+
+    &-table {
+      display: block;
+      table-layout: auto;
+
+      thead {
+        display: none;
+      }
+
+      tbody {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      tbody tr {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px 12px;
+        padding: 14px;
+        background: $card;
+        box-shadow: $shadow;
+
+        &:hover {
+          background: $card;
+        }
+      }
+
+      td {
+        display: block;
+        height: auto;
+        min-width: 0;
+        padding: 0;
+        border: 0;
+        overflow: visible;
+
+        &::before {
+          content: attr(data-label);
+          display: block;
+          margin-bottom: 3px;
+          color: $text-3;
+          font-size: 11px;
+          font-weight: 600;
+        }
+      }
+
+      td.pj-cell-name,
+      td.pj-cell-members,
+      td.pj-cell-actions {
+        grid-column: 1 / -1;
+      }
+
+      td.pj-cell-name::before,
+      td.pj-cell-actions::before {
+        display: none;
+      }
+    }
+
+    &-row-actions {
+      justify-content: flex-end;
+    }
+  }
+}
+
+// ---------- Sections of a development project ----------
+// Small line under the project name: which sections it has.
+.pj-sec-line {
+  display: block;
+  margin-top: 3px;
+  font-size: 12px;
+  font-weight: 500;
+  color: $text-3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pj-sec-modal {
+  max-width: 520px;
+}
+
+.pj-sec-lead {
+  margin: -4px 0 14px;
+  font-size: 13px;
+  color: $text-2;
+  line-height: 1.5;
+}
+
+.pj-sec-add {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
+
+  input {
+    flex: 1;
+    min-width: 0;
+    height: 38px;
+    padding: 0 12px;
+    border: 1px solid $border;
+    border-radius: 8px;
+    background: #fff;
+    color: $text;
+    font-size: 14px;
+
+    &:focus {
+      outline: none;
+      border-color: $accent;
+      box-shadow: 0 0 0 3px rgba(79, 122, 70, 0.15);
+    }
+  }
+}
+
+.pj-sec-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 320px;
+  overflow-y: auto;
+  border: 1px solid $border;
+  border-radius: 10px;
+}
+
+.pj-sec-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-bottom: 1px solid $border;
+
+  &:last-child {
+    border-bottom: 0;
+  }
+
+  &:hover {
+    background: $surface-alt;
+  }
+
+  input {
+    flex: 1;
+    min-width: 0;
+    height: 32px;
+    padding: 0 10px;
+    border: 1px solid $accent;
+    border-radius: 6px;
+    font-size: 14px;
+    color: $text;
+    box-shadow: 0 0 0 3px rgba(79, 122, 70, 0.15);
+
+    &:focus {
+      outline: none;
+    }
+  }
+}
+
+.pj-sec-name {
+  flex: 1;
+  min-width: 0;
+  font-weight: 600;
+  color: $text;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pj-sec-count {
+  flex: none;
+  padding: 2px 9px;
+  border-radius: 999px;
+  background: $accent-soft;
+  color: $accent;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.pj-sec-empty {
+  padding: 22px 14px;
+  text-align: center;
+  font-size: 13px;
+  color: $text-2;
+}
+
+.pj-sec-err {
+  margin: 0 0 12px;
+  padding: 9px 12px;
+  border-radius: 8px;
+  background: #fdecea;
+  color: $danger;
+  font-size: 13px;
+}

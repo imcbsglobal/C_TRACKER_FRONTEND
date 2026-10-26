@@ -1,0 +1,1144 @@
+// Task page (opens when a board card is clicked) — sage theme, scoped under .tp
+$accent: #4f7a46;
+$accent-dark: #3f6839;
+$accent-soft: #e4ede0;
+$accent-ring: rgba(79, 122, 70, 0.22);
+$card: #ffffff;
+$surface-alt: #f3f6f0;
+$hover: #eef2ea;
+$border: #e3e9de;
+$border-strong: #d3dccd;
+$text: #1c261b;
+$text-2: #5d685a;
+$text-3: #93a08f;
+$shadow: 0 1px 2px rgba(31, 54, 28, 0.05);
+$bp: 700px;
+
+$tone-bg: (
+  "grey": #ecefe9,
+  "blue": #dfeafb,
+  "yellow": #fcecc6,
+  "green": #dcf2dc,
+  "purple": #ebe2fb,
+  "red": #fde3e0,
+);
+$tone-fg: (
+  "grey": #566052,
+  "blue": #2461c4,
+  "yellow": #9a6200,
+  "green": #2c7a38,
+  "purple": #6a3fc0,
+  "red": #d23a30,
+);
+
+.tp {
+  flex: 1 1 auto;
+  width: 100%;
+  min-width: 0;
+  max-width: none;
+  margin: 0;
+  padding-bottom: 48px;
+  color: $text;
+  font-family: Manrope, Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+
+  input,
+  select,
+  textarea,
+  button {
+    font-family: inherit;
+  }
+
+  button:focus-visible,
+  a:focus-visible,
+  select:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible {
+    outline: 2px solid $accent;
+    outline-offset: 1px;
+  }
+
+  @each $name, $bg in $tone-bg {
+    .tone-#{$name} {
+      --tone-bg: #{$bg};
+      --tone-fg: #{map-get($tone-fg, $name)};
+    }
+  }
+
+  .tp-muted {
+    color: $text-2;
+  }
+
+  .tp-alert {
+    margin: 0 0 16px;
+    padding: 10px 14px;
+    border: 1px solid #f3b9b3;
+    border-radius: 10px;
+    background: #fde3e0;
+    color: #b42a20;
+    font-size: 13px;
+  }
+
+  // ---------- Top bar ----------
+  .tp-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .tp-back {
+    color: $text-2;
+    font-weight: 600;
+    text-decoration: none;
+
+    &:hover {
+      color: $accent-dark;
+    }
+  }
+
+  .tp-top-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .tp-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border: 0;
+    border-radius: 8px;
+    background: $accent-soft;
+    color: $accent-dark;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+
+    &:hover {
+      background: $accent;
+      color: #fff;
+    }
+
+    &.tp-btn-danger {
+      background: #fde3e0;
+      color: #d23a30;
+
+      &:hover {
+        background: #d23a30;
+        color: #fff;
+      }
+    }
+  }
+
+  // ---------- Share menu ----------
+  .tp-share {
+    position: relative;
+  }
+
+  .tp-btn-share {
+    background: $accent;
+    color: #fff;
+
+    &:hover:not(:disabled) {
+      background: $accent-dark;
+    }
+
+    &:disabled {
+      opacity: 0.7;
+      cursor: default;
+    }
+  }
+
+  .tp-menu {
+    position: absolute;
+    top: calc(100% + 6px);
+    right: 0;
+    z-index: 20;
+    min-width: 190px;
+    padding: 4px;
+    background: $card;
+    border: 1px solid $border-strong;
+    border-radius: 10px;
+    box-shadow: 0 8px 24px rgba(31, 54, 28, 0.14);
+  }
+
+  .tp-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 9px 12px;
+    border: 0;
+    background: transparent;
+    color: $text;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: left;
+    cursor: pointer;
+
+    svg {
+      color: $accent-dark;
+    }
+
+    &:hover {
+      background: $hover;
+    }
+  }
+
+  // ---------- Page ----------
+  .tp-page {
+    padding: 28px 32px 32px;
+    background: $card;
+    border: 1px solid $border;
+    border-radius: 14px;
+  }
+
+  .tp-head {
+    margin-bottom: 26px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid $border;
+  }
+
+  .tp-num {
+    display: inline-block;
+    margin-bottom: 8px;
+    padding: 3px 10px;
+    border-radius: 6px;
+    background: $accent-soft;
+    color: $accent-dark;
+    font-size: 12.5px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+
+  .tp-title {
+    display: block;
+    box-sizing: border-box;
+    width: calc(100% + 16px);
+    margin: 0 -8px;
+    padding: 2px 8px;
+    border: 0;
+    border-radius: 8px;
+    outline: 0;
+    background: transparent;
+    color: $text;
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1.25;
+    transition: background 0.15s;
+
+    &:hover:not(:disabled),
+    &:focus {
+      background: $surface-alt;
+    }
+
+    &::placeholder {
+      color: $text-3;
+    }
+  }
+
+  .tp-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 12px 0 0;
+  }
+
+  .tp-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 11px 4px 9px;
+    border: 1px solid $border;
+    border-radius: 999px;
+    background: $surface-alt;
+    color: $text-2;
+    font-size: 12.5px;
+    font-weight: 600;
+
+    svg {
+      width: 14px;
+      height: 14px;
+      color: $text-3;
+    }
+
+    small {
+      padding: 0 6px;
+      border-radius: 999px;
+      background: $accent;
+      color: #fff;
+      font-size: 10.5px;
+      font-weight: 700;
+    }
+
+    &.is-live {
+      border-color: transparent;
+      background: $accent-soft;
+      color: $accent-dark;
+
+      svg {
+        color: $accent-dark;
+      }
+    }
+  }
+
+  .tp-chip-status {
+    border-color: transparent;
+    background: var(--tone-bg);
+    color: var(--tone-fg);
+  }
+
+  .tp-chip-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+
+  .tp-sub {
+    margin: 12px 0 0;
+    color: $text-3;
+    font-size: 12.5px;
+  }
+
+  // ---------- Two columns: work on the left, details on the right ----------
+  .tp-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: 36px;
+    align-items: start;
+  }
+
+  .tp-main {
+    min-width: 0;
+  }
+
+  .tp-side {
+    position: sticky;
+    top: 12px;
+    max-height: calc(100vh - 140px);
+    overflow-y: auto;
+  }
+
+  .tp-card {
+    border: 1px solid $border;
+    border-radius: 12px;
+    background: $surface-alt;
+  }
+
+  .tp-card-head {
+    margin: 0;
+    padding: 14px 16px 4px;
+    color: $text;
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  // ---------- Properties ----------
+  .tp-props {
+    display: flex;
+    flex-direction: column;
+    padding: 4px 8px 10px;
+  }
+
+  .tp-row {
+    display: grid;
+    grid-template-columns: 100px minmax(0, 1fr);
+    align-items: center;
+    gap: 6px;
+    min-height: 40px;
+    padding: 0 8px;
+  }
+
+  .tp-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: $text-2;
+    font-size: 13px;
+
+    svg {
+      flex-shrink: 0;
+      color: $text-3;
+    }
+  }
+
+  .tp-value {
+    min-width: 0;
+  }
+
+  .tp-input {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    padding: 6px 8px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    background: transparent;
+    color: $text;
+    font-size: 13.5px;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+
+    &:hover {
+      border-color: $border-strong;
+      background: $card;
+    }
+
+    &:focus {
+      border-color: $accent;
+      background: $card;
+    }
+
+    &::placeholder {
+      color: $text-3;
+    }
+
+    &.overdue {
+      color: #d23a30;
+      font-weight: 600;
+    }
+  }
+
+  .tp-input.tp-pill {
+    width: auto;
+    padding: 4px 12px;
+    border-radius: 999px;
+    background: var(--tone-bg);
+    color: var(--tone-fg);
+    font-size: 13px;
+    font-weight: 600;
+
+    &:hover,
+    &:focus {
+      border-color: transparent;
+      background: var(--tone-bg);
+      filter: brightness(0.96);
+    }
+  }
+
+  // ---------- Follow-ups ----------
+  // ---------- Sections ----------
+  .tp-sec {
+    margin: 0 0 32px;
+  }
+
+  .tp-sec-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 14px;
+
+    h3 {
+      margin: 0;
+      color: $text;
+      font-size: 17px;
+      font-weight: 700;
+    }
+  }
+
+  .tp-fu {
+    margin-bottom: 0;
+  }
+
+  .tp-count {
+    padding: 1px 8px;
+    background: $accent-soft;
+    color: $accent-dark;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .tp-avatar {
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: $accent-soft;
+    color: $accent-dark;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  // ---------- Follow-up composer (one box, pinned at the bottom) ----------
+  .tp-composer-wrap {
+    position: sticky;
+    bottom: 0;
+    z-index: 5;
+    margin: 18px 0 0;
+    padding: 14px 0 4px;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0), $card 16px);
+  }
+
+  .tp-composer {
+    border: 1px solid $border-strong;
+    border-radius: 12px;
+    background: $card;
+    box-shadow: 0 -2px 14px rgba(31, 54, 28, 0.07);
+    transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+
+    &:focus-within {
+      border-color: $accent;
+      box-shadow: 0 0 0 3px $accent-ring;
+    }
+
+    &.is-drag {
+      border-color: $accent;
+      background: $surface-alt;
+    }
+  }
+
+  .tp-composer-previews {
+    padding: 0 14px;
+  }
+
+  .tp-composer-input {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 46px;
+    max-height: 140px;
+    padding: 13px 14px 4px;
+    border: 0;
+    outline: 0;
+    resize: none;
+    background: transparent;
+    color: $text;
+    font-size: 15px;
+    line-height: 1.5;
+
+    &::placeholder {
+      color: $text-3;
+    }
+
+    &:focus-visible {
+      outline: 0;
+    }
+  }
+
+  .tp-composer-bar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 8px 8px 8px;
+  }
+
+  .tp-attach-ghost:hover:not(:disabled) {
+    background: $hover !important;
+    color: $accent-dark !important;
+  }
+
+  .tp-composer-hint {
+    flex: 1;
+    min-width: 0;
+    padding-left: 4px;
+    overflow: hidden;
+    color: $text-3;
+    font-size: 12px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .tp-send {
+    display: grid;
+    flex-shrink: 0;
+    place-items: center;
+    width: 38px;
+    height: 32px;
+    padding: 0;
+    border: 0;
+    border-radius: 6px;
+    background: $accent;
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.15s;
+
+    &:hover:not(:disabled) {
+      background: $accent-dark;
+    }
+
+    &:disabled {
+      background: $border-strong;
+      cursor: default;
+    }
+  }
+
+  // ---------- Timeline ----------
+  .tp-list {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    > li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    > li:not(:last-child)::before {
+      content: "";
+      position: absolute;
+      top: 46px;
+      bottom: -6px;
+      left: 27px;
+      width: 2px;
+      background: $border;
+    }
+  }
+
+  .tp-list .tp-avatar {
+    width: 32px;
+    height: 32px;
+  }
+
+  .tp-avatar.is-event {
+    background: $accent;
+    color: #fff;
+  }
+
+  .tp-event {
+    position: relative;
+    margin: 0 -12px;
+    padding: 8px 12px 14px;
+
+    .tp-note-head {
+      align-items: center;
+      min-height: 32px;
+      flex-wrap: wrap;
+
+      span {
+        color: $text-2;
+        font-size: 13.5px;
+      }
+    }
+  }
+
+  .tp-empty-note {
+    margin: 4px 0 0 32px;
+    padding: 14px 16px;
+    border: 1px dashed $border-strong;
+    border-radius: 10px;
+    color: $text-3;
+    font-size: 13.5px;
+  }
+
+  .tp-note {
+    flex: 1;
+    min-width: 0;
+
+    p {
+      margin: 4px 0 0;
+      font-size: 14.5px;
+      line-height: 1.55;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+  }
+
+  .tp-note-head {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+
+    strong {
+      font-size: 13.5px;
+    }
+
+    small {
+      color: $text-3;
+      font-size: 12px;
+    }
+  }
+
+  // ---------- Message rows: hover bar like Mattermost ----------
+  .tp-msg {
+    position: relative;
+    margin: 0 -12px;
+    padding: 8px 12px 18px;
+    border-radius: 10px;
+    transition: background 0.12s;
+
+    &:hover,
+    &:focus-within,
+    &.is-editing {
+      background: $surface-alt;
+    }
+
+    &:hover .tp-msg-actions,
+    &:focus-within .tp-msg-actions {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+
+  .tp-msg-actions {
+    position: absolute;
+    top: -14px;
+    right: 12px;
+    z-index: 2;
+    display: flex;
+    padding: 2px;
+    border: 1px solid $border-strong;
+    border-radius: 6px;
+    background: $card;
+    box-shadow: 0 4px 14px rgba(31, 54, 28, 0.14);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.12s;
+
+    button {
+      display: grid;
+      place-items: center;
+      width: 30px;
+      height: 28px;
+      padding: 0;
+      border: 0;
+      border-radius: 4px;
+      background: transparent;
+      color: $text-2;
+      cursor: pointer;
+      transition: background 0.12s, color 0.12s;
+
+      &:hover {
+        background: $hover;
+        color: $accent-dark;
+      }
+
+      &.is-danger:hover {
+        background: #fde3e0;
+        color: #d23a30;
+      }
+    }
+  }
+
+  // ---------- Reactions ----------
+  .tp-msg.has-picker .tp-msg-actions {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .tp-msg-actions {
+    .tp-emoji {
+      font-size: 15px;
+      line-height: 1;
+    }
+
+    .tp-sep {
+      width: 1px;
+      margin: 4px 3px;
+      background: $border;
+    }
+  }
+
+  .tp-reacts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+  }
+
+  .tp-react {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    height: 26px;
+    padding: 0 9px;
+    border: 1px solid $border-strong;
+    border-radius: 13px;
+    background: $card;
+    color: $text-2;
+    font-size: 12.5px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.12s, border-color 0.12s, color 0.12s;
+
+    span {
+      font-size: 14px;
+      line-height: 1;
+    }
+
+    &:hover {
+      background: $hover;
+    }
+
+    &.on {
+      border-color: $accent;
+      background: $accent-soft;
+      color: $accent-dark;
+    }
+
+    &.tp-react-add {
+      padding: 0 8px;
+      border-style: dashed;
+      color: $text-3;
+      opacity: 0;
+      transition: opacity 0.12s, background 0.12s;
+    }
+  }
+
+  .tp-msg:hover .tp-react-add,
+  .tp-msg:focus-within .tp-react-add,
+  .tp-msg.has-picker .tp-react-add {
+    opacity: 1;
+  }
+
+  .tp-picker {
+    position: absolute;
+    top: 20px;
+    right: 12px;
+    z-index: 6;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 2px;
+    padding: 6px;
+    border: 1px solid $border-strong;
+    border-radius: 8px;
+    background: $card;
+    box-shadow: 0 8px 24px rgba(31, 54, 28, 0.18);
+
+    button {
+      display: grid;
+      place-items: center;
+      width: 36px;
+      height: 34px;
+      padding: 0;
+      border: 0;
+      border-radius: 6px;
+      background: transparent;
+      font-size: 19px;
+      line-height: 1;
+      cursor: pointer;
+      transition: background 0.12s, transform 0.12s;
+
+      &:hover {
+        background: $hover;
+        transform: scale(1.12);
+      }
+    }
+  }
+
+  .tp-edit {
+    margin-top: 4px;
+    border: 1px solid $accent;
+    border-radius: 6px;
+    background: $card;
+    box-shadow: 0 0 0 3px $accent-ring;
+  }
+
+  .tp-edit-input {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px 12px 4px;
+    border: 0;
+    outline: 0;
+    resize: vertical;
+    background: transparent;
+    color: $text;
+    font-size: 14.5px;
+    line-height: 1.5;
+
+    &:focus-visible {
+      outline: 0;
+    }
+  }
+
+  .tp-edit-bar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    padding: 4px 8px 8px;
+  }
+
+  .tp-edit-hint {
+    margin-right: auto;
+    color: $text-3;
+    font-size: 12px;
+  }
+
+  .tp-edit-cancel,
+  .tp-edit-save {
+    padding: 6px 14px;
+    border: 0;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .tp-edit-cancel {
+    background: $accent-soft;
+    color: $accent-dark;
+
+    &:hover {
+      background: $border-strong;
+    }
+  }
+
+  .tp-edit-save {
+    background: $accent;
+    color: #fff;
+
+    &:hover:not(:disabled) {
+      background: $accent-dark;
+    }
+
+    &:disabled {
+      background: $border-strong;
+      cursor: default;
+    }
+  }
+
+  // Touch screens have no hover, so keep the bar visible
+  @media (hover: none) {
+    .tp-msg-actions,
+    .tp-react-add {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+
+  .tp-list .tp-empty {
+    display: block;
+    color: $text-3;
+    font-size: 13px;
+  }
+
+  // ---------- Description ----------
+  .tp-textarea {
+    display: block;
+    width: 100%;
+    padding: 8px;
+    border: 1px solid transparent;
+    border-radius: 0;
+    outline: 0;
+    background: transparent;
+    color: $text;
+    font-size: 15px;
+    line-height: 1.6;
+    resize: vertical;
+  }
+
+  .tp-issue {
+    .tp-textarea {
+      box-sizing: border-box;
+      min-height: 150px;
+      padding: 12px 14px;
+      border: 1.5px solid $border-strong;
+      border-radius: 10px;
+      background: $card;
+      font-size: 15px;
+      line-height: 1.65;
+      transition: border-color 0.15s, box-shadow 0.15s;
+
+      &:hover:not(:disabled) {
+        border-color: $accent;
+      }
+
+      &:focus {
+        border-color: $accent;
+        box-shadow: 0 0 0 4px $accent-ring;
+      }
+
+      &:disabled {
+        background: $surface-alt;
+      }
+    }
+  }
+
+  .tp-issue-text {
+    max-width: 74ch;
+    margin: 0 0 16px;
+    color: $text;
+    font-size: 15.5px;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    word-break: break-word;
+
+    &.is-empty {
+      color: $text-3;
+      font-style: italic;
+    }
+  }
+
+  .tp-issue-empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 22px 16px;
+    border: 1.5px dashed $border-strong;
+    border-radius: 12px;
+    background: transparent;
+    color: $text-2;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s, color 0.15s;
+
+    &:hover {
+      border-color: $accent;
+      background: $surface-alt;
+      color: $accent-dark;
+    }
+  }
+
+  .tp-btn-ghost {
+    border: 1px solid $border-strong;
+    background: transparent;
+    color: $text-2;
+
+    &:hover {
+      border-color: $accent;
+      background: $accent-soft;
+      color: $accent-dark;
+    }
+  }
+
+  .tp-issue-edit {
+    margin-left: auto;
+    padding: 5px 12px;
+  }
+
+  .tp-issue-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin: 14px 0 0;
+
+    > .tp-btn {
+      padding: 9px 18px;
+      background: $accent;
+      color: #fff;
+
+      &:hover:not(:disabled) {
+        background: $accent-dark;
+      }
+
+      &:disabled {
+        opacity: 0.6;
+        cursor: default;
+      }
+    }
+
+    > .tp-issue-cancel {
+      background: $accent-soft;
+      color: $accent-dark;
+
+      &:hover:not(:disabled) {
+        background: $border-strong;
+        color: $accent-dark;
+      }
+    }
+  }
+
+  .tp-saved {
+    color: #2c7a38;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  // ---------- Support case: who submitted it ----------
+  .tp-issue-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    margin: 0 0 16px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid $border;
+
+    .tp-avatar {
+      width: 36px;
+      height: 36px;
+      font-size: 13px;
+    }
+
+    strong {
+      display: block;
+      font-size: 14px;
+    }
+
+    small {
+      display: block;
+      color: $text-3;
+      font-size: 12px;
+    }
+  }
+
+  .tp-issue-customer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 18px;
+    margin: 0 0 0 auto;
+    padding: 0;
+    list-style: none;
+    color: $text-2;
+    font-size: 13px;
+
+    li {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    svg {
+      color: $accent-dark;
+    }
+  }
+
+  // ---------- Responsive ----------
+  @media (max-width: 960px) {
+    .tp-grid {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 24px;
+    }
+
+    .tp-side {
+      order: -1;
+      position: static;
+      max-height: none;
+    }
+  }
+
+  @media (max-width: $bp) {
+    .tp-page {
+      padding: 18px 14px 24px;
+      border-radius: 12px;
+    }
+
+    .tp-title {
+      font-size: 24px;
+    }
+
+    .tp-row {
+      grid-template-columns: 96px minmax(0, 1fr);
+    }
+
+    .tp-issue-customer {
+      margin-left: 0;
+    }
+
+    .tp-issue-text {
+      font-size: 15px;
+    }
+
+    .tp-composer-hint {
+      display: none;
+    }
+  }
+}

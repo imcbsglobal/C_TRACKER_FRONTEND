@@ -1,0 +1,1675 @@
+// Sprints page: slim, flat, Notion-like. sp-* page, sv-* overview list, sc-* sprint cards, sx-* sprint rows.
+// sb-* (task board in ComplaintList.jsx) is NOT part of this page: paste your existing sb-* block
+// at the very bottom of this file unchanged, or move it to its own file.
+
+$accent: #4f7a46;
+$accent-dark: #3f6839;
+$soft: #eaf1e6;
+$hover: #f5f7f3;
+$track: #e8ebe5;
+$border: #e8ebe5;
+$border-2: #d6dcd1;
+$text: #1f2a1d;
+$text-2: #757f72;
+$text-3: #9aa497;
+$late: #d23a30;
+$late-bg: #fdecea;
+$ctl: 30px;
+$font: Manrope, Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+$tone-grey: #eef0eb, #566052;
+$tone-blue: #e3edfb, #2461c4;
+$tone-yellow: #fcf0cf, #9a6200;
+$tone-green: #e0f3e0, #2c7a38;
+$tone-purple: #ede5fb, #6a3fc0;
+$tone-red: #fde6e3, #d23a30;
+
+@mixin tone($pair) {
+  background: nth($pair, 1);
+  color: nth($pair, 2);
+}
+
+$arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%236f7a6c' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+
+@mixin select-look($h: $ctl) {
+  height: $h;
+  padding: 0 26px 0 10px;
+  border: 1px solid $border-2;
+  border-radius: 4px;
+  background: #fff $arrow no-repeat right 10px center;
+  color: $text;
+  font: inherit;
+  font-size: 13px;
+  appearance: none;
+  cursor: pointer;
+
+  &:hover,
+  &:focus {
+    border-color: $accent;
+    outline: 0;
+  }
+}
+
+// ---------- Shell ----------
+.sp {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  color: $text;
+  font-family: $font;
+  font-size: 13px;
+  -webkit-font-smoothing: antialiased;
+
+  input,
+  select,
+  textarea,
+  button {
+    font-family: inherit;
+  }
+
+  :focus-visible {
+    outline: 2px solid $accent;
+    outline-offset: 1px;
+  }
+}
+
+.sp .sp-page {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 0;
+  padding: 4px 0 32px;
+  scrollbar-width: thin;
+  scrollbar-color: $border-2 transparent;
+
+  @media (max-width: 700px) {
+    gap: 14px;
+  }
+}
+
+@media (min-width: 801px) {
+  .lay-main:has(> .sp) {
+    overflow: hidden;
+  }
+
+  .sp {
+    flex: 1;
+    min-height: 0;
+  }
+
+  .sp .sp-page {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+  }
+}
+
+.sp-muted,
+.sp-hint {
+  margin: 0;
+  color: $text-2;
+  font-size: 12px;
+}
+
+.sp-alert {
+  padding: 8px 12px;
+  border-radius: 4px;
+  background: $late-bg;
+  color: #b42a20;
+  font-size: 12.5px;
+}
+
+.sp .sp-empty,
+.sp .sp-empty-line {
+  border: 1px dashed $border-2;
+  border-radius: 4px;
+  color: $text-2;
+  text-align: center;
+}
+
+.sp .sp-empty {
+  padding: 40px 20px;
+
+  strong {
+    display: block;
+    color: $text;
+    font-size: 14px;
+  }
+
+  p {
+    margin: 6px 0 12px;
+  }
+}
+
+.sp .sp-empty-line {
+  margin: 0;
+  padding: 14px;
+}
+
+// ---------- Buttons ----------
+.sp .sp-btn,
+.sp-overlay .sp-btn,
+.sp-new {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: $ctl;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 4px;
+  background: $hover;
+  color: $text;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s;
+
+  &:hover:not(:disabled) {
+    background: $soft;
+    color: $accent-dark;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.sp .sp-btn-primary,
+.sp-overlay .sp-btn-primary,
+.sp-new {
+  background: $accent;
+  color: #fff;
+
+  &:hover:not(:disabled) {
+    background: $accent-dark;
+    color: #fff;
+  }
+}
+
+.sp .sp-btn-ghost {
+  background: transparent;
+  color: $text-2;
+}
+
+.sp .sp-btn-danger {
+  background: transparent;
+  color: $late;
+
+  &:hover:not(:disabled) {
+    background: $late-bg;
+    color: $late;
+  }
+}
+
+.sp-link {
+  padding: 3px 6px;
+  border: 0;
+  border-radius: 4px;
+  background: none;
+  color: $accent-dark;
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+
+  &:hover:not(:disabled) {
+    background: $soft;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+  }
+}
+
+.sp .sp-link-danger {
+  color: $late;
+
+  &:hover:not(:disabled) {
+    background: $late-bg;
+  }
+}
+
+// ---------- Chips ----------
+.sp .sx-chip,
+.sp .sp-left,
+.sp .ss-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 7px;
+  border-radius: 3px;
+  @include tone($tone-grey);
+  font-size: 11.5px;
+  font-weight: 600;
+  white-space: nowrap;
+
+  &.is-ok,
+  &.is-done,
+  &.is-active {
+    @include tone($tone-green);
+  }
+
+  &.is-behind,
+  &.is-planned {
+    @include tone($tone-yellow);
+  }
+
+  &.is-late {
+    @include tone($tone-red);
+  }
+}
+
+.sp .ss-tag {
+  background: $soft;
+  color: $accent-dark;
+}
+
+.sp .ss-projchips {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.sp .ss-projchip {
+  padding: 1px 7px;
+  border: 0;
+  border-radius: 3px;
+  background: $soft;
+  color: $accent-dark;
+  font: inherit;
+  font-size: 11.5px;
+  font-weight: 600;
+  cursor: pointer;
+
+  &:hover:not(:disabled) {
+    background: $accent;
+    color: #fff;
+  }
+
+  &:disabled {
+    cursor: default;
+  }
+}
+
+// ---------- Progress ----------
+.sx-bar {
+  position: relative;
+  height: 4px;
+  border-radius: 2px;
+  background: $track;
+}
+
+.sx-fill {
+  display: block;
+  height: 100%;
+  border-radius: 2px;
+  background: $accent;
+  transition: width 0.3s ease;
+}
+
+.sx-marker {
+  position: absolute;
+  top: -3px;
+  bottom: -3px;
+  width: 2px;
+  margin-left: -1px;
+  background: $text;
+}
+
+// ======================================================================
+// Overview: filter row + sprint cards (the default view)
+// ======================================================================
+
+.sp .sv {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.sv-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 10px 16px;
+}
+
+.sp .sv-project {
+  @include select-look();
+  min-width: 180px;
+  max-width: 100%;
+  font-weight: 600;
+}
+
+.sv-seg {
+  display: inline-flex;
+  align-self: flex-start;
+  gap: 2px;
+  border-bottom: 1px solid $border;
+}
+
+.sp .sv-segbtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: -1px;
+  padding: 7px 12px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: $text-2;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+
+  span {
+    color: $text-3;
+    font-size: 12px;
+  }
+
+  &:hover {
+    color: $text;
+  }
+
+  &.on {
+    border-bottom-color: $accent;
+    color: $text;
+  }
+}
+
+.sp .sv-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sp .sv-grouphead {
+  margin: 0;
+  color: $text-2;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+
+  em {
+    margin-left: 4px;
+    color: $text-3;
+    font-style: normal;
+  }
+}
+
+.sp .sv-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(290px, 100%), 1fr));
+  gap: 16px;
+}
+
+// ---------- Sprint card (sc-*): status + time left, name + dates, progress, projects, footer ----------
+// Colour comes from three variables set per status, so the markup stays the same for all states.
+@each $state, $tone, $soft-bg, $ink, $btn in
+  (active, #4f7a46, #e4f0df, #2f5a29, #4f7a46),
+  (planned, #e0a526, #fdf0cf, #8a5a10, #c98f17),
+  (completed, #5b82c9, #e3ebf8, #2f5aa8, #5b82c9)
+{
+  .sp .sc.is-#{$state} {
+    --tone: #{$tone};
+    --tone-soft: #{$soft-bg};
+    --tone-ink: #{$ink};
+    --btn: #{$btn};
+  }
+}
+
+.sp .sc {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+  padding: 18px 18px 12px 22px;
+  border: 1px solid #e3e8df;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: inset 4px 0 0 var(--tone);
+  transition: border-color 0.12s, box-shadow 0.12s;
+
+  &:hover {
+    border-color: #cfd8ca;
+    box-shadow: inset 4px 0 0 var(--tone), 0 6px 18px rgba(31, 42, 29, 0.07);
+  }
+}
+
+.sp .sc-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.sp .sc-state {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--tone-ink);
+  font-size: 12.5px;
+  font-weight: 700;
+
+  i {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--tone);
+  }
+}
+
+.sp .sc-when {
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: var(--tone-soft);
+  color: var(--tone-ink);
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+
+  &.is-late {
+    background: $late-bg;
+    color: #b42a20;
+  }
+}
+
+.sp .sc-name {
+  display: -webkit-box;
+  margin: 0;
+  overflow: hidden;
+  color: $text;
+  font-size: 19px;
+  font-weight: 800;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.sp .sc-dates {
+  margin: 4px 0 0;
+  color: $text-2;
+  font-size: 12.5px;
+}
+
+.sp .sc-prog {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.sp .sc-bar {
+  height: 6px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(31, 42, 29, 0.08);
+
+  i {
+    display: block;
+    height: 100%;
+    border-radius: 999px;
+    background: var(--tone);
+  }
+}
+
+.sp .sc-prog-tx,
+.sp .sc-count {
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+  color: $text-2;
+  font-size: 12px;
+
+  b {
+    color: $text;
+  }
+}
+
+.sp .sc-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.sp .sc-chip {
+  max-width: 100%;
+  padding: 3px 10px;
+  overflow: hidden;
+  border: 0;
+  border-radius: 6px;
+  background: #f1f4ee;
+  color: #3f5a39;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+
+  &:hover {
+    background: var(--tone);
+    color: #fff;
+  }
+
+  &.is-more {
+    background: transparent;
+    color: $text-2;
+    cursor: default;
+
+    &:hover {
+      background: transparent;
+      color: $text-2;
+    }
+  }
+}
+
+.sp .sc-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 10px;
+  border-top: 1px solid #eef1eb;
+}
+
+.sp .sc-view {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 30px;
+  margin-left: -8px;
+  padding: 0 8px;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  color: $accent-dark;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+
+  &:hover:not(:disabled) {
+    background: #f1f4ee;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.sp .sc-acts {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.sp .sc-icon {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  color: $text-2;
+  cursor: pointer;
+
+  &:hover:not(:disabled) {
+    background: #f1f4ee;
+    color: $text;
+  }
+
+  &.is-danger:hover:not(:disabled) {
+    background: $late-bg;
+    color: #b42a20;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.sp .sc-primary {
+  height: 30px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 6px;
+  background: var(--btn);
+  color: #fff;
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+
+  &:hover:not(:disabled) {
+    filter: brightness(0.92);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+// ======================================================================
+// Project detail
+// ======================================================================
+
+.sp-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+}
+
+.sp-projname {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.sp-tabs {
+  display: flex;
+  gap: 2px;
+  overflow-x: auto;
+  border-bottom: 1px solid $border;
+}
+
+.sp .sp-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: -1px;
+  padding: 7px 12px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: $text-2;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+
+  span {
+    color: $text-3;
+    font-size: 12px;
+  }
+
+  &:hover {
+    color: $text;
+  }
+
+  &.on {
+    border-bottom-color: $accent;
+    color: $text;
+  }
+}
+
+.sp-section {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.sp-section-head h3 {
+  margin: 0;
+  color: $text-2;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.sp .sp-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid $border;
+
+  &:last-child {
+    border-bottom: 0;
+  }
+}
+
+.sp-card-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px 20px;
+
+  h4 {
+    margin: 0 0 6px;
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+}
+
+.sp .sp-sub {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  margin: 0;
+  color: $text-3;
+  font-size: 12px;
+
+  b {
+    color: $text-2;
+    font-weight: 600;
+
+    &.is-red {
+      color: $late;
+    }
+  }
+}
+
+.sp-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+}
+
+.sp .sp-goal {
+  margin: 0;
+  color: $text-2;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+// ---------- Active sprint (project detail) ----------
+.sp .sp-card.ad-card {
+  gap: 16px;
+  padding: 20px 22px;
+  border: 1px solid #e3e8df;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: inset 4px 0 0 $accent;
+
+  .sp-card-head h4 {
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+  }
+}
+
+.sp .ad-goal {
+  margin: 0;
+  padding: 10px 14px;
+  border-left: 3px solid $accent;
+  border-radius: 0 8px 8px 0;
+  background: #f5f8f2;
+  color: #4c5a49;
+  font-size: 13.5px;
+  line-height: 1.55;
+}
+
+.sp .ad-team {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+}
+
+.sp .ad-team-label {
+  color: $text-2;
+  font-size: 12.5px;
+  font-weight: 600;
+}
+
+.sp .ad-team-empty {
+  color: $text-3;
+  font-size: 12.5px;
+}
+
+.sp .ad-team-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 3px 12px 3px 4px;
+    border-radius: 999px;
+    background: #f1f4ee;
+    font-size: 12.5px;
+    font-weight: 600;
+  }
+
+  .sx-av {
+    width: 22px;
+    height: 22px;
+    background: $accent;
+    color: #fff;
+  }
+
+  small {
+    color: $text-2;
+    font-size: 11.5px;
+    font-weight: 500;
+  }
+}
+
+.sp .ad-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 10px;
+}
+
+.sp .ad-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px 14px;
+  border: 1px solid #eef1eb;
+  border-radius: 10px;
+  background: #f9faf7;
+
+  b {
+    color: $text;
+    font-size: 22px;
+    font-weight: 800;
+    line-height: 1.15;
+
+    em {
+      color: $text-3;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 600;
+    }
+  }
+
+  span {
+    color: $text-2;
+    font-size: 12px;
+  }
+
+  &.is-main {
+    border-color: transparent;
+    background: $accent;
+
+    b,
+    span {
+      color: #fff;
+    }
+  }
+
+  &.is-warn {
+    border-color: #f3dfae;
+    background: #fff8e6;
+
+    b {
+      color: #9a6200;
+    }
+  }
+}
+
+.sp .sx-banner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 14px;
+  padding: 8px 12px;
+  border-radius: 4px;
+  background: $hover;
+  border-left: 3px solid $accent;
+
+  div {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  span {
+    color: $text-2;
+    font-size: 12px;
+  }
+
+  &.is-good {
+    background: #e0f3e0;
+    border-left-color: #2c7a38;
+  }
+
+  &.is-late {
+    background: $late-bg;
+    border-left-color: $late;
+
+    strong,
+    span {
+      color: #b42a20;
+    }
+  }
+}
+
+.sx-banner-actions {
+  display: flex;
+  gap: 4px;
+}
+
+.sx-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  margin: 0;
+  color: $text-2;
+  font-size: 12px;
+
+  b {
+    margin-right: 4px;
+    color: $text;
+    font-size: 13px;
+  }
+
+  .is-warn b {
+    color: #9a6200;
+  }
+}
+
+.sx-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+
+  select {
+    @include select-look();
+  }
+}
+
+.sx-seg {
+  display: inline-flex;
+  padding: 2px;
+  border-radius: 4px;
+  background: $hover;
+
+  button {
+    height: 26px;
+    padding: 0 10px;
+    border: 0;
+    border-radius: 3px;
+    background: transparent;
+    color: $text-2;
+    font: inherit;
+    font-size: 12.5px;
+    font-weight: 500;
+    cursor: pointer;
+
+    &.is-on {
+      background: #fff;
+      color: $text;
+      font-weight: 600;
+      box-shadow: 0 0 0 1px $border;
+    }
+  }
+}
+
+.sx-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: $text-2;
+  cursor: pointer;
+
+  input {
+    accent-color: $accent;
+  }
+}
+
+// ---------- Task rows (one style for active, planned, backlog, history) ----------
+.sp-cases,
+.sx-rows {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sp-case {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 6px;
+  border-bottom: 1px solid $border;
+  transition: background 0.12s;
+
+  &:hover {
+    background: $hover;
+  }
+
+  &.is-picked {
+    background: $soft;
+  }
+
+  &.is-mine {
+    box-shadow: inset 2px 0 0 $accent;
+  }
+
+  &.is-done .sp-case-title {
+    color: $text-3;
+    text-decoration: line-through;
+  }
+
+  input[type="checkbox"] {
+    accent-color: $accent;
+  }
+
+  @media (max-width: 800px) {
+    flex-wrap: wrap;
+  }
+}
+
+.sp-case-info {
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+  min-width: 0;
+}
+
+.sp-case-num {
+  padding: 1px 6px;
+  border-radius: 3px;
+  background: $soft;
+  color: $accent-dark;
+  font-size: 11.5px;
+  font-weight: 700;
+}
+
+.sp-case-title {
+  flex: 1 1 200px;
+  min-width: 0;
+  font-size: 13.5px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.sp-case-who,
+.sx-due {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: $text-2;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.sx-due.is-late {
+  color: $late;
+  font-weight: 600;
+}
+
+.sx-prio {
+  padding: 1px 7px;
+  border-radius: 3px;
+  @include tone($tone-grey);
+  font-size: 11.5px;
+  font-weight: 600;
+
+  &[data-p="high"] {
+    @include tone($tone-red);
+  }
+
+  &[data-p="medium"] {
+    @include tone($tone-yellow);
+  }
+
+  &[data-p="low"] {
+    @include tone($tone-green);
+  }
+}
+
+.sp-case-ctrl {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.sx-status {
+  width: 120px;
+  height: 26px;
+  padding: 0 24px 0 8px;
+  border: 0;
+  border-radius: 4px;
+  @include tone($tone-grey);
+  background-image: $arrow;
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  appearance: none;
+  cursor: pointer;
+
+  &:disabled {
+    opacity: 0.55;
+    cursor: wait;
+  }
+
+  &[data-tone="blue"] {
+    @include tone($tone-blue);
+  }
+
+  &[data-tone="green"] {
+    @include tone($tone-green);
+  }
+
+  &[data-tone="yellow"],
+  &[data-tone="orange"] {
+    @include tone($tone-yellow);
+  }
+
+  &[data-tone="purple"] {
+    @include tone($tone-purple);
+  }
+
+  &[data-tone="red"] {
+    @include tone($tone-red);
+  }
+}
+
+.sp .sp-pill {
+  min-width: 90px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  @include tone($tone-grey);
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+  white-space: nowrap;
+
+  &.is-done {
+    @include tone($tone-green);
+  }
+}
+
+.sp .sx-view {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 26px;
+  padding: 0 8px;
+  border-radius: 4px;
+  color: $text-2;
+  font-size: 12.5px;
+  font-weight: 600;
+  text-decoration: none;
+
+  &:hover {
+    background: $soft;
+    color: $accent-dark;
+  }
+}
+
+.sp .sx-av {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: $soft;
+  color: $accent-dark;
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.sp .sx-ctrl .sx-btn {
+  height: 26px;
+  padding: 0 10px;
+}
+
+// Remove: only on hover (always visible on touch)
+.sp-case .sx-remove {
+  color: $text-3;
+  opacity: 0;
+}
+
+.sp-case:hover .sx-remove,
+.sp-case:focus-within .sx-remove {
+  opacity: 1;
+}
+
+@media (hover: none) {
+  .sp-case .sx-remove {
+    opacity: 1;
+  }
+}
+
+// ---------- Section groups ----------
+.sp .ss-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.sp .ss-group-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid $border-2;
+
+  h5 {
+    margin: 0;
+    font-size: 13px;
+    font-weight: 700;
+  }
+}
+
+.sp .ss-group-count {
+  margin-left: auto;
+  color: $text-2;
+  font-size: 12px;
+}
+
+.sp .ss-group-bar {
+  position: relative;
+  width: 60px;
+  height: 3px;
+  background: $track;
+
+  i {
+    position: absolute;
+    inset: 0 auto 0 0;
+    background: $accent;
+  }
+}
+
+// ---------- Backlog pick bar, history ----------
+.sp .sp-pickbar {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  padding: 8px 12px;
+  border: 1px solid $border;
+  border-radius: 4px;
+  background: #fff;
+
+  &.has-picked {
+    border-color: $accent;
+  }
+
+  label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: $text-2;
+  }
+
+  select {
+    @include select-look();
+    min-width: 160px;
+  }
+}
+
+.sp-history {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  > li {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 12px 6px;
+    border-bottom: 1px solid $border;
+  }
+
+  details {
+    flex: 1;
+    min-width: 0;
+
+    > :not(summary) {
+      margin-top: 10px;
+    }
+  }
+
+  summary {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px 12px;
+    cursor: pointer;
+    list-style: none;
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+  }
+}
+
+.sp-history-name {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.sp-dates {
+  color: $text-3;
+  font-size: 12px;
+}
+
+// ======================================================================
+// Modals (portal, outside .sp)
+// ======================================================================
+
+.sp-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: rgba(16, 28, 14, 0.4);
+  font-family: $font;
+}
+
+.sp-overlay .sp-modal {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 480px;
+  max-height: calc(100vh - 32px);
+  padding: 22px;
+  overflow-y: auto;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 12px 32px rgba(31, 54, 28, 0.2);
+  color: $text;
+  font-size: 13px;
+
+  &.sp-modal-wide {
+    max-width: 540px;
+  }
+
+  h2 {
+    margin: 0;
+    font-size: 18px;
+  }
+
+  input,
+  select,
+  textarea,
+  button {
+    font-family: inherit;
+  }
+}
+
+.sp-overlay .sp-alert {
+  padding: 8px 12px;
+  border-radius: 4px;
+  background: $late-bg;
+  color: #b42a20;
+}
+
+.sp-overlay .sp-hint {
+  color: $text-2;
+  font-size: 12px;
+}
+
+.sp-lead {
+  margin: 0;
+  color: $text-2;
+  line-height: 1.5;
+}
+
+.sp-overlay .sp-field {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+
+  > span {
+    font-size: 12.5px;
+    font-weight: 600;
+  }
+
+  input[type="text"],
+  input:not([type]),
+  input[type="date"],
+  input[type="search"],
+  textarea {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 7px 10px;
+    border: 1px solid $border-2;
+    border-radius: 4px;
+    color: $text;
+    font-size: 13px;
+
+    &:hover,
+    &:focus {
+      border-color: $accent;
+      outline: 0;
+    }
+  }
+
+  select {
+    @include select-look(34px);
+    width: 100%;
+  }
+
+  textarea {
+    resize: vertical;
+  }
+}
+
+.sp-overlay .ss-count {
+  color: $text-2;
+  font-style: normal;
+  font-weight: 500;
+}
+
+.sp-overlay .sp-cols {
+  display: flex;
+  gap: 10px;
+
+  @media (max-width: 480px) {
+    flex-direction: column;
+  }
+}
+
+.sp-overlay .sp-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  cursor: pointer;
+
+  input {
+    margin-top: 2px;
+    accent-color: $accent;
+  }
+
+  span {
+    font-size: 12.5px;
+    font-weight: 600;
+  }
+
+  small {
+    display: block;
+    margin-top: 2px;
+    font-weight: 400;
+  }
+}
+
+.sp-overlay .sp-actions {
+  position: sticky;
+  bottom: -22px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+  margin: 0 -22px -22px;
+  padding: 12px 22px;
+  border-top: 1px solid $border;
+  background: #fff;
+}
+
+.sp-overlay .sx-quick {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  color: $text-2;
+  font-size: 12px;
+}
+
+.sp-overlay .sx-chipbtn {
+  padding: 2px 8px;
+  border: 0;
+  border-radius: 3px;
+  background: $soft;
+  color: $accent-dark;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+
+  &:hover {
+    background: $accent;
+    color: #fff;
+  }
+}
+
+.sp-overlay .ss-projects,
+.sp-overlay .sp-pick {
+  display: flex;
+  flex-direction: column;
+  max-height: 190px;
+  margin: 0;
+  padding: 4px;
+  overflow-y: auto;
+  border: 1px solid $border-2;
+  border-radius: 4px;
+  list-style: none;
+
+  label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 8px;
+    border-radius: 3px;
+    cursor: pointer;
+
+    &:hover {
+      background: $hover;
+    }
+
+    &.on {
+      background: $soft;
+      font-weight: 600;
+    }
+
+    input {
+      margin: 0;
+      accent-color: $accent;
+    }
+
+    small {
+      margin-left: auto;
+      color: $text-2;
+    }
+  }
+}
+
+.sp-overlay .ss-projects-name,
+.sp-overlay .sp-pick-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sp-overlay .sp-pick-tools {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sp-overlay .sp-pick-empty {
+  padding: 10px;
+  color: $text-2;
+  text-align: center;
+}
+
+.sp-overlay .sp-av {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: $soft;
+  color: $accent-dark;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.sp-overlay .ss-perproject {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  margin: 0;
+  color: $text-2;
+}
+
+.sp-overlay .sx-unfinished {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+  padding: 8px 10px;
+  border-radius: 4px;
+  background: $hover;
+  list-style: none;
+
+  li {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: baseline;
+    gap: 8px;
+    font-size: 12.5px;
+  }
+
+  span,
+  small {
+    color: $text-2;
+    font-size: 12px;
+  }
+
+  em {
+    overflow: hidden;
+    font-style: normal;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .sx-unfinished-more {
+    display: block;
+    color: $text-2;
+  }
+}
+
+// >>> paste the existing sb-* block (task board, used by ComplaintList.jsx) here, unchanged

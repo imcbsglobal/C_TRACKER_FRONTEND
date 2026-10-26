@@ -1,0 +1,903 @@
+// "My sprints" list page (.ms) and the opened sprint board header (.sbd).
+// Sage theme, medium size. The board itself reuses ComplaintList.scss (.cl).
+
+$accent: #4f7a46;
+$accent-dark: #3f6839;
+$accent-soft: #e4ede0;
+$accent-ring: rgba(79, 122, 70, 0.22);
+$forest: #1f3d1c;
+$forest-2: #2f5a2a;
+$card: #ffffff;
+$surface-alt: #f3f6f0;
+$hover: #eef2ea;
+$track: #e6ede2;
+$border: #e3e9de;
+$border-strong: #d3dccd;
+$text: #1c261b;
+$text-2: #5d685a;
+$text-3: #93a08f;
+$warn: #9a6200;
+$warn-bg: #fff7e3;
+$late: #d23a30;
+$late-bg: #fde3e0;
+$shadow: 0 1px 2px rgba(31, 54, 28, 0.05);
+$bp: 800px;
+
+$arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%236f7a6c' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+
+// status colours
+$st-active-c: #2f9e55;
+$st-active-bg: #d8f3de;
+$st-active-fg: #17673a;
+
+$st-planned-c: #e8a100;
+$st-planned-bg: #ffefc2;
+$st-planned-fg: #8a5a00;
+
+$st-done-c: #7e55d1;
+$st-done-bg: #e6dbff;
+$st-done-fg: #5b2fb8;
+
+// Everything below is nested under .ms so it out-ranks any clashing or
+// later-loaded rule (e.g. another stylesheet that also uses .ms-card / .ms-list).
+.ms {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  padding: 26px 30px 36px;
+  border-radius: 18px;
+  background: radial-gradient(900px 240px at 100% 0%, #eaf4e6 0%, rgba(234, 244, 230, 0) 70%), $card;
+  color: $text;
+  font-family: Manrope, Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 15px;
+  -webkit-font-smoothing: antialiased;
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  // beat any global `a:hover { text-decoration: underline }`
+  a,
+  a:hover,
+  a:focus,
+  a:active,
+  a:visited {
+    text-decoration: none;
+  }
+
+  a:focus-visible,
+  button:focus-visible {
+    outline: 2px solid $accent;
+    outline-offset: 3px;
+  }
+
+  @media (max-width: 700px) {
+    padding: 16px 12px 28px;
+  }
+
+  // ---------- shared small pieces ----------
+  .ms-alert {
+    margin: 0 0 14px;
+    padding: 10px 14px;
+    border: 1px solid #f3b9b3;
+    border-radius: 10px;
+    background: $late-bg;
+    color: #b42a20;
+    font-size: 13.5px;
+  }
+
+  .ms-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 3px 11px;
+    border-radius: 999px;
+    background: $st-active-bg;
+    color: $st-active-fg;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 18px;
+    white-space: nowrap;
+
+    &.is-planned {
+      background: $st-planned-bg;
+      color: $st-planned-fg;
+    }
+
+    &.is-completed {
+      background: $st-done-bg;
+      color: $st-done-fg;
+    }
+  }
+
+  .ms-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+
+  .ms-tag.is-active .ms-dot {
+    animation: ms-pulse 1.8s ease-out infinite;
+  }
+
+  @keyframes ms-pulse {
+    0% {
+      box-shadow: 0 0 0 0 rgba(47, 158, 85, 0.55);
+    }
+    100% {
+      box-shadow: 0 0 0 7px rgba(47, 158, 85, 0);
+    }
+  }
+
+  .ms-empty {
+    padding: 48px 20px;
+    border-radius: 16px;
+    border: 1.5px dashed #bcd3b5;
+    background: linear-gradient(135deg, #f4faf2, #eef6fb);
+    text-align: center;
+
+    strong {
+      display: block;
+      color: $text;
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    p {
+      max-width: 380px;
+      margin: 6px auto 0;
+      color: $text-2;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+  }
+
+  // ---------- header ----------
+  .ms-head {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+
+    h1 {
+      margin: 0 0 3px;
+      color: $text;
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+
+      @media (max-width: 700px) {
+        font-size: 22px;
+      }
+    }
+
+    p {
+      max-width: 620px;
+      margin: 0;
+      color: $text-2;
+      font-size: 14.5px;
+      line-height: 1.45;
+    }
+  }
+
+  .ms-head-icon {
+    display: grid;
+    flex: none;
+    place-items: center;
+    width: 52px;
+    height: 52px;
+    border-radius: 15px;
+    background: $card;
+    box-shadow: 0 6px 16px -8px rgba(47, 90, 42, 0.4), 0 0 0 1px $border;
+    color: $accent;
+  }
+
+  // ---------- stat cards ----------
+  .ms-stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+    margin-bottom: 16px;
+
+    @media (max-width: 800px) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .ms-stat {
+    --bg: #{$surface-alt};
+    --fg: #{$text-2};
+    --tile: #eceee9;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 18px;
+    border: 1.5px solid $border;
+    border-radius: 16px;
+    background: $card;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s, box-shadow 0.15s, transform 0.15s;
+
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 20px -14px rgba(31, 54, 28, 0.45);
+    }
+
+    &.is-active {
+      --bg: #f1fbf4;
+      --fg: #{$st-active-fg};
+      --tile: #{$st-active-bg};
+    }
+
+    &.is-planned {
+      --bg: #fffaec;
+      --fg: #{$st-planned-fg};
+      --tile: #{$st-planned-bg};
+    }
+
+    &.is-completed {
+      --bg: #f7f3ff;
+      --fg: #{$st-done-fg};
+      --tile: #{$st-done-bg};
+    }
+
+    &.is-all {
+      --bg: #f2f7fd;
+      --fg: #1d4ed8;
+      --tile: #dbeafe;
+    }
+
+    &.is-on {
+      border-color: var(--fg);
+      background: var(--bg);
+    }
+  }
+
+  .ms-stat-ic {
+    display: grid;
+    flex: none;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: var(--tile);
+    color: var(--fg);
+  }
+
+  .ms-stat-tx {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    min-width: 0;
+
+    span {
+      overflow: hidden;
+      color: var(--fg);
+      font-size: 13.5px;
+      font-weight: 600;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    b {
+      color: $text;
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+    }
+  }
+
+  // ---------- toolbar ----------
+  .ms-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+
+  .ms-search,
+  .ms-select {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    height: 44px;
+    padding: 0 15px;
+    border: 1.5px solid $border;
+    border-radius: 13px;
+    background: $card;
+    color: $text-3;
+    transition: border-color 0.15s, box-shadow 0.15s;
+
+    &:focus-within {
+      border-color: $accent;
+      box-shadow: 0 0 0 3px $accent-ring;
+    }
+  }
+
+  .ms-search {
+    flex: 1 1 260px;
+
+    input {
+      flex: 1;
+      min-width: 0;
+      border: 0;
+      background: transparent;
+      color: $text;
+      font: inherit;
+      font-size: 14.5px;
+      outline: 0;
+
+      &::placeholder {
+        color: $text-3;
+      }
+    }
+  }
+
+  .ms-select {
+    flex: 0 0 auto;
+    min-width: 160px;
+    color: $text-2;
+
+    select {
+      flex: 1;
+      height: 100%;
+      padding: 0 22px 0 0;
+      border: 0;
+      background-color: transparent;
+      background-image: $arrow;
+      background-repeat: no-repeat;
+      background-position: right 0 center;
+      color: $text;
+      font: inherit;
+      font-size: 14.5px;
+      font-weight: 600;
+      appearance: none;
+      -webkit-appearance: none;
+      cursor: pointer;
+      outline: 0;
+    }
+
+    @media (max-width: 700px) {
+      flex: 1 1 140px;
+    }
+  }
+
+  // ---------- sprint rows ----------
+  .ms-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .ms-card {
+    --c: #{$st-active-c};
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 280px auto;
+    align-items: center;
+    column-gap: 26px;
+    min-height: 92px;
+    padding: 16px 20px 16px 28px;
+    overflow: hidden;
+    border: 1px solid $border;
+    border-radius: 16px;
+    background: $card;
+    box-shadow: $shadow;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+
+    // no underline in any link state, on the card and on everything inside it
+    &,
+    &:hover,
+    &:focus,
+    &:active,
+    &:visited {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    * {
+      text-decoration: none !important;
+    }
+
+    // coloured edge
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: 6px;
+      background: var(--c);
+    }
+
+    &.is-planned {
+      --c: #{$st-planned-c};
+    }
+
+    &.is-completed {
+      --c: #{$st-done-c};
+    }
+
+    &.is-soon {
+      --c: #f5a524;
+    }
+
+    &.is-overdue {
+      --c: #e5483b;
+    }
+
+    &:hover {
+      transform: translateY(-2px);
+      border-color: $border-strong;
+      box-shadow: 0 14px 28px -16px rgba(47, 90, 42, 0.5);
+
+      .ms-view {
+        background: $accent;
+        color: #fff;
+      }
+    }
+
+    @media (max-width: 900px) {
+      grid-template-columns: minmax(0, 1fr) auto;
+      row-gap: 12px;
+
+      .ms-main {
+        grid-column: 1 / -1;
+      }
+
+      .ms-prog {
+        grid-column: 1;
+      }
+
+      .ms-view {
+        grid-column: 2;
+      }
+    }
+  }
+
+  .ms-main {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+  }
+
+  .ms-line1,
+  .ms-line2 {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 10px;
+    min-width: 0;
+  }
+
+  .ms-card-title {
+    max-width: 100%;
+    margin: 0 6px 0 0;
+    overflow: hidden;
+    color: $text;
+    font-size: 19px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .ms-left {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 11px;
+    border-radius: 999px;
+    background: #dbeafe;
+    color: #1d4ed8;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 18px;
+    white-space: nowrap;
+
+    &.is-late {
+      background: $late-bg;
+      color: $late;
+    }
+  }
+
+  .ms-meta {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    color: $text-2;
+    font-size: 14px;
+    font-weight: 500;
+    white-space: nowrap;
+
+    > svg {
+      flex: none;
+      color: $text-3;
+    }
+  }
+
+  .ms-chip {
+    padding: 2px 11px;
+    border-radius: 7px;
+    font-size: 12.5px;
+    font-weight: 800;
+    letter-spacing: 0.03em;
+    line-height: 18px;
+    text-transform: uppercase;
+  }
+
+  // avatars
+  .ms-avs {
+    display: inline-flex;
+    align-items: center;
+    margin-left: 2px;
+  }
+
+  .ms-avatar {
+    display: grid;
+    flex: none;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    margin-left: -8px;
+    border: 2.5px solid $card;
+    border-radius: 50%;
+    object-fit: cover;
+    font-size: 11px;
+    font-weight: 800;
+
+    &:first-child {
+      margin-left: 0;
+    }
+
+    &.is-more {
+      background: #eceee9;
+      color: $text-2;
+      font-size: 11.5px;
+    }
+  }
+
+  // progress (ring + counts)
+  .ms-prog {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-width: 0;
+  }
+
+  .ms-ring {
+    position: relative;
+    display: grid;
+    flex: none;
+    place-items: center;
+    width: 64px;
+    height: 64px;
+
+    svg {
+      position: absolute;
+      inset: 0;
+      transform: rotate(-90deg);
+    }
+
+    .ms-ring-bg {
+      stroke: $track;
+    }
+
+    .ms-ring-fg {
+      stroke: var(--c);
+      transition: stroke-dashoffset 0.7s ease;
+    }
+
+    &.is-full .ms-ring-fg {
+      stroke: $st-active-c;
+    }
+
+    b {
+      position: relative;
+      color: $text;
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+  }
+
+  .ms-prog-tx {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+
+    b {
+      color: $text;
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    small {
+      overflow: hidden;
+      color: $text-2;
+      font-size: 12.5px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  .ms-view {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 44px;
+    padding: 0 20px;
+    border-radius: 12px;
+    background: $accent-soft;
+    color: $forest;
+    font-size: 14.5px;
+    font-weight: 800;
+    white-space: nowrap;
+    transition: background 0.15s, color 0.15s;
+  }
+
+  // loading skeleton
+  .ms-skel {
+    height: 92px;
+    border-radius: 16px;
+    background: linear-gradient(90deg, #eaf4e6 25%, #f4faf2 50%, #eaf4e6 75%);
+    background-size: 200% 100%;
+    animation: ms-shimmer 1.2s infinite;
+  }
+
+  @keyframes ms-shimmer {
+    to {
+      background-position: -200% 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ms-card,
+    .ms-stat,
+    .ms-ring-fg {
+      transition: none;
+    }
+
+    .ms-tag.is-active .ms-dot,
+    .ms-skel {
+      animation: none;
+    }
+  }
+
+  // ======================================================================
+}
+
+// Opened sprint (board)
+// ======================================================================
+.sbd {
+  .sbd-head {
+    flex-shrink: 0;
+    margin-bottom: 18px;
+    padding: 22px 26px 20px;
+    border: 1px solid $border;
+    border-radius: 22px;
+    background: radial-gradient(700px 200px at 0% 0%, #eaf3e5 0%, rgba(234, 243, 229, 0) 70%), $card;
+    box-shadow: 0 1px 2px rgba(31, 54, 28, 0.04), 0 10px 28px -12px rgba(47, 90, 42, 0.22);
+
+    @media (max-width: $bp) {
+      padding: 16px 14px;
+      border-radius: 18px;
+    }
+  }
+
+  .sbd-back {
+    display: inline-block;
+    margin-bottom: 10px;
+    color: $text-2;
+    font-weight: 600;
+    text-decoration: none;
+
+    &:hover {
+      color: $accent-dark;
+    }
+  }
+
+  .sbd-title-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+
+    h1 {
+      margin: 0;
+      color: $text;
+      font-size: 30px;
+      font-weight: 700;
+      line-height: 1.2;
+
+      @media (max-width: $bp) {
+        font-size: 24px;
+      }
+    }
+  }
+
+  .sbd-sub {
+    margin: 6px 0 0;
+    color: $text-3;
+    font-size: 12.5px;
+  }
+
+  .sbd-goal {
+    margin: 14px 0 0;
+    padding: 10px 14px;
+    border: 1.5px solid $border-strong;
+    background: $card;
+    color: $text;
+    font-size: 14px;
+    line-height: 1.5;
+
+    b {
+      margin-right: 10px;
+      color: $accent-dark;
+      font-size: 12px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+  }
+
+  .sbd-stats {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 18px;
+    margin-top: 16px;
+    color: $text-2;
+    font-size: 13px;
+
+    b {
+      color: $text;
+      font-weight: 700;
+    }
+  }
+
+  .sbd-seg {
+    display: inline-flex;
+    margin-left: auto;
+    padding: 3px;
+    background: $surface-alt;
+    border: 1px solid $border;
+
+    button {
+      padding: 6px 14px;
+      border: 0;
+      background: transparent;
+      color: $text-2;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+
+      &:hover:not(.is-on) {
+        background: $hover;
+        color: $accent-dark;
+      }
+
+      &.is-on {
+        background: $accent;
+        color: #fff;
+        font-weight: 600;
+      }
+    }
+
+    @media (max-width: $bp) {
+      margin-left: 0;
+    }
+  }
+
+  .sbd-warn {
+    margin: 14px 0 0;
+    padding: 10px 14px;
+    border: 1px solid #f1d49a;
+    border-left: 4px solid #d99100;
+    background: $warn-bg;
+    color: $warn;
+    font-size: 13px;
+    font-weight: 600;
+
+    &.is-info {
+      border-color: $border-strong;
+      border-left-color: $accent;
+      background: $surface-alt;
+      color: $text-2;
+    }
+  }
+
+  // status menu at the bottom of a card (also works on touch screens)
+  .sbd-status {
+    align-self: flex-start;
+    height: 28px;
+    max-width: 100%;
+    padding: 0 26px 0 10px;
+    border: 0;
+    background-color: var(--tone-bg, #ecefe9);
+    background-image: $arrow;
+    background-repeat: no-repeat;
+    background-position: right 9px center;
+    color: var(--tone-fg, #566052);
+    font: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+
+    &:hover:not(:disabled) {
+      filter: brightness(0.96);
+    }
+
+    &:disabled {
+      cursor: default;
+      opacity: 0.7;
+    }
+  }
+
+  // quick-add box: title + project / section menus
+  .sbd-qa-pick {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+
+    select {
+      flex: 1 1 120px;
+      min-width: 0;
+      height: 30px;
+      padding: 0 26px 0 10px;
+      border: 1px solid $border-strong;
+      background-color: $card;
+      background-image: $arrow;
+      background-repeat: no-repeat;
+      background-position: right 9px center;
+      color: $text;
+      font: inherit;
+      font-size: 12.5px;
+      appearance: none;
+      -webkit-appearance: none;
+      cursor: pointer;
+
+      &:focus {
+        border-color: $accent;
+        outline: 0;
+        box-shadow: 0 0 0 3px $accent-ring;
+      }
+    }
+  }
+
+  .sbd-qa-actions {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .sbd-qa-close {
+    padding: 0;
+    border: 0;
+    background: none;
+    color: $text-2;
+    font: inherit;
+    font-size: 12px;
+    cursor: pointer;
+
+    &:hover {
+      color: $text;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+  }
+}

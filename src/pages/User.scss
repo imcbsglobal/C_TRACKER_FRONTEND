@@ -1,0 +1,836 @@
+// User logins: sage design, same compact table look as the task listing.
+$accent: #4f7a46;
+$accent-dark: #3f6839;
+$accent-light: #5f8c55;
+$accent-soft: #e4ede0;
+$accent-ring: rgba(79, 122, 70, 0.22);
+$card: #ffffff;
+$surface-alt: #f3f6f0;
+$hover: #eef2ea;
+$border: #e3e9de;
+$border-strong: #d3dccd;
+$ink: #1c261b;
+$muted: #5d685a;
+$muted-2: #93a08f;
+$danger: #d23a30;
+$danger-soft: #fde3e0;
+$shadow: 0 1px 2px rgba(31, 54, 28, 0.05);
+
+// access colours
+$dev-bg: #e4ede0;
+$dev-fg: #3f6839;
+$sup-bg: #fdecd8;
+$sup-fg: #9a5a12;
+$both-bg: #e6e8fb;
+$both-fg: #3d479e;
+
+$bp: 800px;
+
+.usr {
+  width: 100%;
+  color: $ink;
+  font-size: 14px;
+  font-family: Manrope, Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+
+  button,
+  input {
+    font-family: inherit;
+  }
+
+  button:focus-visible,
+  input:focus-visible,
+  a:focus-visible {
+    outline: 2px solid $accent;
+    outline-offset: 1px;
+  }
+
+  // ---------- Alert ----------
+  &-alert {
+    margin-bottom: 14px;
+    padding: 10px 14px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #b42a20;
+    background: $danger-soft;
+    border: 1px solid #f3b9b3;
+    border-radius: 12px;
+  }
+
+  // ---------- Inputs ----------
+  input[type="text"],
+  input[type="email"],
+  input:not([type]) {
+    min-width: 0;
+    height: 40px;
+    box-sizing: border-box;
+    padding: 0 12px;
+    font: inherit;
+    font-size: 14px;
+    color: $ink;
+    background: #fff;
+    border: 1px solid $border-strong;
+    border-radius: 10px;
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s, background-color 0.15s;
+
+    &::placeholder {
+      color: $muted-2;
+    }
+
+    &:hover {
+      background: $surface-alt;
+      border-color: #bccab5;
+    }
+
+    &:focus {
+      background: #fff;
+      border-color: $accent;
+      box-shadow: 0 0 0 3px $accent-ring;
+    }
+  }
+
+  // ---------- Toolbar (same card as the task filter bar) ----------
+  &-bar {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding: 12px;
+    background: $card;
+    border-radius: 14px;
+    box-shadow: $shadow;
+  }
+
+  &-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  &-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    height: 40px;
+    padding: 0 12px 0 14px;
+    font: inherit;
+    font-size: 14px;
+    color: $muted;
+    background: #fff;
+    border: 1px solid $border;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: border-color 0.15s, background-color 0.15s;
+
+    span {
+      min-width: 22px;
+      padding: 1px 7px;
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 18px;
+      text-align: center;
+      color: $muted;
+      background: $surface-alt;
+      border-radius: 999px;
+    }
+
+    &:hover {
+      border-color: $border-strong;
+    }
+
+    &.on {
+      color: $accent-dark;
+      font-weight: 600;
+      background: $accent-soft;
+      border-color: $accent;
+
+      span {
+        color: $muted;
+        background: #fff;
+      }
+    }
+  }
+
+  &-search {
+    flex: 0 1 260px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 40px;
+    padding: 0 12px;
+    background: #fff;
+    border: 1px solid $border;
+    border-radius: 10px;
+    color: $muted-2;
+    transition: border-color 0.15s, box-shadow 0.15s;
+
+    &:focus-within {
+      border-color: $accent;
+      box-shadow: 0 0 0 3px $accent-ring;
+    }
+
+    input[type="search"] {
+      flex: 1;
+      min-width: 0;
+      height: 38px;
+      padding: 0;
+      border: 0;
+      outline: 0;
+      background: transparent;
+      color: $ink;
+      font: inherit;
+      font-size: 14px;
+
+      &::placeholder {
+        color: $muted-2;
+      }
+
+      &::-webkit-search-cancel-button {
+        appearance: none;
+      }
+    }
+  }
+
+  &-count {
+    margin-left: auto;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: $accent-soft;
+    color: $accent-dark;
+    font-size: 12.5px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  // ---------- Buttons ----------
+  &-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 40px;
+    padding: 0 18px;
+    font: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+    background: linear-gradient(180deg, $accent-light, $accent-dark);
+    border: 1px solid transparent;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(63, 104, 57, 0.28);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: filter 0.15s, background 0.15s, border-color 0.15s, color 0.15s;
+
+    &:hover:not(:disabled) {
+      filter: brightness(1.06);
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    &-ghost {
+      color: $accent-dark;
+      background: #fff;
+      border-color: $border-strong;
+      box-shadow: none;
+
+      &:hover:not(:disabled) {
+        background: $accent-soft;
+        border-color: $accent;
+        filter: none;
+      }
+    }
+  }
+
+  // ---------- Add / edit panel ----------
+  &-panel {
+    margin-bottom: 20px;
+    padding: 20px;
+    background: $card;
+    border: 1px solid $border-strong;
+    border-radius: 14px;
+    box-shadow: 0 6px 18px rgba(31, 54, 28, 0.07);
+
+    h3 {
+      margin: 0 0 14px;
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+
+    &-inline {
+      margin: 0;
+      background: $surface-alt;
+      border-color: $border;
+      box-shadow: none;
+    }
+
+    &-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-top: 16px;
+    }
+  }
+
+  &-fields {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    margin-bottom: 16px;
+  }
+
+  &-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+
+    > span {
+      font-size: 13px;
+      font-weight: 600;
+      color: $muted;
+    }
+  }
+
+  &-note {
+    margin: 14px 0 0;
+    font-size: 13px;
+    color: $muted;
+
+    a {
+      color: $accent-dark;
+      font-weight: 600;
+    }
+  }
+
+  // Access picker: segmented control + one-line description
+  &-seg {
+    display: inline-flex;
+    gap: 4px;
+    max-width: 100%;
+    padding: 4px;
+    background: $surface-alt;
+    border: 1px solid $border-strong;
+    border-radius: 12px;
+
+    &-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      height: 36px;
+      padding: 0 18px;
+      font: inherit;
+      font-size: 13.5px;
+      font-weight: 600;
+      color: $muted;
+      background: transparent;
+      border: 0;
+      border-radius: 9px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.15s, color 0.15s, box-shadow 0.15s;
+
+      svg {
+        flex: none;
+        width: 16px;
+        height: 16px;
+      }
+
+      &:hover:not(.on) {
+        color: $ink;
+        background: rgba(79, 122, 70, 0.1);
+      }
+
+      &.on {
+        background: #fff;
+        box-shadow: 0 1px 3px rgba(31, 54, 28, 0.14), inset 0 0 0 1.5px currentColor;
+      }
+
+      &.usr-seg-developer.on { color: $dev-fg; }
+      &.usr-seg-support.on   { color: $sup-fg; }
+    }
+
+    &-desc {
+      margin: 8px 2px 0;
+      font-size: 12.5px;
+      color: $muted;
+    }
+  }
+
+  // ---------- Table (matches the task listing) ----------
+  &-card {
+    overflow: hidden;
+    background: $card;
+    border-radius: 0;
+    box-shadow: $shadow;
+  }
+
+  &-table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: separate;
+    border-spacing: 0;
+
+    th,
+    td {
+      padding: 0 10px;
+      text-align: left;
+      vertical-align: middle;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      border-bottom: 1px solid $border;
+      border-right: 1px solid $border;
+    }
+
+    th:last-child,
+    td:last-child {
+      border-right: 0;
+    }
+
+    th {
+      height: 36px;
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+      color: $ink;
+      background: #dbe5d4;
+      border-bottom-color: $border-strong;
+      border-right-color: #c3d0bb;
+    }
+
+    td {
+      height: 42px;
+      font-size: 12.5px;
+    }
+
+    tbody tr {
+      transition: background 0.12s;
+
+      &:hover:not(.usr-editrow) {
+        background: $surface-alt;
+      }
+
+      &:last-child td {
+        border-bottom: 0;
+      }
+    }
+
+    // column widths: User, Access, Projects, Password, Status, Actions (must add up to 100%)
+    th:nth-child(1) { width: 26%; }
+    th:nth-child(2) { width: 12%; }
+    th:nth-child(3) { width: 20%; }
+    th:nth-child(4) { width: 17%; }
+    th:nth-child(5) { width: 10%; }
+    th:nth-child(6) { width: 15%; }
+  }
+
+  tr.is-off {
+    .usr-info strong,
+    .usr-info small {
+      color: $muted-2;
+    }
+  }
+
+  tr.is-editing {
+    background: $surface-alt;
+  }
+
+  &-editrow td {
+    height: auto;
+    padding: 0 12px 14px;
+    background: $surface-alt;
+    overflow: visible;
+  }
+
+  &-empty {
+    height: 120px !important;
+    color: $muted-2;
+    font-size: 14px !important;
+    text-align: center !important;
+  }
+
+  // person
+  &-who {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+  }
+
+  &-avatar {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #fff;
+    background: linear-gradient(160deg, $accent-light, $accent-dark);
+    border-radius: 8px;
+
+    &.off {
+      background: #aab5a6;
+    }
+  }
+
+  &-info {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    line-height: 1.25;
+
+    strong {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: $ink;
+      font-size: 12.5px;
+      font-weight: 600;
+    }
+
+    small {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: $muted;
+      font-size: 11.5px;
+    }
+  }
+
+  // access: flat pill, like the status/priority pills in the task table
+  &-access {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    max-width: 100%;
+    padding: 3px 10px 3px 8px;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+    border-radius: 0;
+
+    svg {
+      flex: none;
+      width: 13px;
+      height: 13px;
+    }
+
+    &-developer { background: $dev-bg; color: $dev-fg; }
+    &-support   { background: $sup-bg; color: $sup-fg; }
+    &-both      { background: $both-bg; color: $both-fg; }
+  }
+
+  // projects
+  &-projs {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 6px;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    list-style: none;
+  }
+
+  &-proj {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 0;
+    max-width: 140px;
+    padding: 3px 9px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 12px;
+    font-weight: 600;
+    color: $dev-fg;
+    background: $dev-bg;
+    border-radius: 0;
+
+    i {
+      flex: none;
+      width: 6px;
+      height: 6px;
+      background: currentColor;
+      border-radius: 50%;
+    }
+
+    &.is-support {
+      color: $sup-fg;
+      background: $sup-bg;
+    }
+
+    &-more {
+      flex: none;
+      color: $muted;
+      background: $surface-alt;
+    }
+  }
+
+  &-noproj {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 9px;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+    color: #9a6200;
+    background: #fcecc6;
+    border-radius: 0;
+  }
+
+  &-dash {
+    color: $muted-2;
+  }
+
+  // password: hidden dots with show / copy buttons (admin only)
+  &-pw {
+    display: flex;
+    align-items: center;
+    align-self: flex-start;
+    flex-wrap: nowrap;
+    gap: 4px;
+    max-width: 100%;
+    min-width: 0;
+
+    &-text {
+      min-width: 0;
+      padding: 3px 8px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 12px;
+      color: $ink;
+      background: $surface-alt;
+      border: 1px solid $border;
+    }
+
+    .usr-ico {
+      flex: none;
+      width: 24px;
+      height: 24px;
+      color: $muted;
+      background: $surface-alt;
+      border: 1px solid $border;
+
+      &:hover {
+        color: #fff;
+        background: $accent;
+        border-color: $accent;
+      }
+    }
+  }
+
+  // status: flat pill
+  &-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    font-size: 12px;
+    font-weight: 500;
+    border-radius: 0;
+
+    &.on {
+      color: #2c7a38;
+      background: #dcf2dc;
+    }
+
+    &.off {
+      color: #9a6200;
+      background: #fcecc6;
+    }
+  }
+
+  // actions: small square icon buttons, like the task table
+  &-actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  &-ico {
+    display: grid;
+    place-items: center;
+    width: 26px;
+    height: 26px;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+
+    &-edit {
+      background: #e3edfb;
+      color: #2461c4;
+
+      &:hover,
+      &.is-on {
+        background: #2461c4;
+        color: #fff;
+      }
+    }
+
+    &-warn {
+      background: #fcecc6;
+      color: #9a6200;
+
+      &:hover {
+        background: #9a6200;
+        color: #fff;
+      }
+    }
+
+    &-ok {
+      background: #dcf2dc;
+      color: #2c7a38;
+
+      &:hover {
+        background: #2c7a38;
+        color: #fff;
+      }
+    }
+
+    &-danger {
+      background: $danger-soft;
+      color: $danger;
+
+      &:hover {
+        background: $danger;
+        color: #fff;
+      }
+    }
+  }
+}
+
+// ---------- Narrow screens: rows become cards (like the task table) ----------
+@media (max-width: $bp) {
+  .usr {
+    &-fields {
+      grid-template-columns: 1fr;
+    }
+
+    &-seg {
+      display: flex;
+
+      &-btn {
+        flex: 1 1 0;
+        padding: 0 8px;
+        gap: 6px;
+      }
+    }
+
+    &-search {
+      flex: 1 0 100%;
+    }
+
+    &-count {
+      margin-left: 0;
+    }
+
+    &-card {
+      background: transparent;
+      box-shadow: none;
+    }
+
+    &-table {
+      display: block;
+      table-layout: auto;
+
+      thead {
+        display: none;
+      }
+
+      tbody {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      tbody tr:not(.usr-editrow) {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px 12px;
+        padding: 14px;
+        background: $card;
+        box-shadow: $shadow;
+
+        &:hover {
+          background: $card;
+        }
+      }
+
+      td {
+        display: block;
+        height: auto;
+        min-width: 0;
+        padding: 0;
+        border: 0;
+        overflow: visible;
+
+        &::before {
+          content: attr(data-label);
+          display: block;
+          margin-bottom: 3px;
+          color: $muted-2;
+          font-size: 11px;
+          font-weight: 600;
+        }
+      }
+
+      td[data-label="User"],
+      td[data-label="Projects"],
+      td[data-label="Password"],
+      td[data-label="Actions"] {
+        grid-column: 1 / -1;
+      }
+
+      // Access and Status sit side by side, then Projects, Password, then the buttons
+      td[data-label="User"] { order: 1; }
+      td[data-label="Access"] { order: 2; }
+      td[data-label="Status"] { order: 3; }
+      td[data-label="Projects"] { order: 4; }
+      td[data-label="Password"] { order: 5; }
+      td[data-label="Actions"] { order: 6; }
+
+      td[data-label="User"]::before,
+      td[data-label="Actions"]::before {
+        display: none;
+      }
+
+      tr.usr-editrow {
+        display: block;
+      }
+
+      .usr-editrow td {
+        padding: 0;
+
+        &::before {
+          display: none;
+        }
+      }
+
+      .usr-projs {
+        flex-wrap: wrap;
+      }
+    }
+
+    &-actions {
+      justify-content: flex-end;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .usr * {
+    transition: none !important;
+  }
+}

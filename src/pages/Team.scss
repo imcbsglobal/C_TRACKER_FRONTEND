@@ -1,0 +1,452 @@
+// Team page: sage design, same toolbar and compact table as User logins and Projects.
+$accent: #4f7a46;
+$accent-dark: #3f6839;
+$accent-light: #5f8c55;
+$accent-soft: #e4ede0;
+$accent-ring: rgba(79, 122, 70, 0.22);
+$card: #ffffff;
+$surface-alt: #f3f6f0;
+$border: #e3e9de;
+$border-strong: #d3dccd;
+$ink: #1c261b;
+$muted: #5d685a;
+$muted-2: #93a08f;
+$danger: #d23a30;
+$danger-soft: #fde3e0;
+$shadow: 0 1px 2px rgba(31, 54, 28, 0.05);
+
+// access colours
+$dev-bg: #e4ede0;
+$dev-fg: #3f6839;
+$sup-bg: #fdecd8;
+$sup-fg: #9a5a12;
+$both-bg: #e6e8fb;
+$both-fg: #3d479e;
+
+$bp: 800px;
+
+.team {
+  width: 100%;
+  color: $ink;
+  font-size: 14px;
+  font-family: Manrope, Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+
+  button,
+  input {
+    font-family: inherit;
+  }
+
+  button:focus-visible,
+  input:focus-visible {
+    outline: 2px solid $accent;
+    outline-offset: 1px;
+  }
+
+  // ---------- Alert ----------
+  &-alert {
+    margin-bottom: 14px;
+    padding: 10px 14px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #b42a20;
+    background: $danger-soft;
+    border: 1px solid #f3b9b3;
+    border-radius: 12px;
+  }
+
+  // ---------- Inputs ----------
+  input[type="text"],
+  input[type="email"],
+  input:not([type]) {
+    min-width: 0;
+    height: 40px;
+    box-sizing: border-box;
+    padding: 0 12px;
+    font: inherit;
+    font-size: 14px;
+    color: $ink;
+    background: #fff;
+    border: 1px solid $border-strong;
+    border-radius: 10px;
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s, background-color 0.15s;
+
+    &::placeholder {
+      color: $muted-2;
+    }
+
+    &:hover {
+      background: $surface-alt;
+      border-color: #bccab5;
+    }
+
+    &:focus {
+      background: #fff;
+      border-color: $accent;
+      box-shadow: 0 0 0 3px $accent-ring;
+    }
+  }
+
+  // ---------- Toolbar ----------
+  &-bar {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding: 12px;
+    background: $card;
+    border-radius: 14px;
+    box-shadow: $shadow;
+  }
+
+  &-search {
+    flex: 0 1 300px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 40px;
+    padding: 0 12px;
+    background: #fff;
+    border: 1px solid $border;
+    border-radius: 10px;
+    color: $muted-2;
+    transition: border-color 0.15s, box-shadow 0.15s;
+
+    &:focus-within {
+      border-color: $accent;
+      box-shadow: 0 0 0 3px $accent-ring;
+    }
+
+    input[type="search"] {
+      flex: 1;
+      min-width: 0;
+      height: 38px;
+      padding: 0;
+      border: 0;
+      outline: 0;
+      background: transparent;
+      color: $ink;
+      font: inherit;
+      font-size: 14px;
+
+      &::placeholder {
+        color: $muted-2;
+      }
+
+      &::-webkit-search-cancel-button {
+        appearance: none;
+      }
+    }
+  }
+
+  &-total {
+    margin-left: auto;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: $accent-soft;
+    color: $accent-dark;
+    font-size: 12.5px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  // ---------- Buttons ----------
+  &-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 40px;
+    padding: 0 18px;
+    font: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+    background: linear-gradient(180deg, $accent-light, $accent-dark);
+    border: 1px solid transparent;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(63, 104, 57, 0.28);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: filter 0.15s, background 0.15s, border-color 0.15s, color 0.15s;
+
+    &:hover:not(:disabled) {
+      filter: brightness(1.06);
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    &-ghost {
+      color: $accent-dark;
+      background: #fff;
+      border-color: $border-strong;
+      box-shadow: none;
+
+      &:hover:not(:disabled) {
+        background: $accent-soft;
+        border-color: $accent;
+        filter: none;
+      }
+    }
+  }
+
+  // ---------- Add / edit panel ----------
+  &-panel {
+    margin-bottom: 20px;
+    padding: 20px;
+    background: $card;
+    border: 1px solid $border-strong;
+    border-radius: 14px;
+    box-shadow: 0 6px 18px rgba(31, 54, 28, 0.07);
+
+    h3 {
+      margin: 0 0 14px;
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+
+    &-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-top: 16px;
+    }
+  }
+
+  &-fields {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  &-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+
+    > span {
+      font-size: 13px;
+      font-weight: 600;
+      color: $muted;
+    }
+  }
+
+  &-note {
+    margin: 14px 0 0;
+    font-size: 13px;
+    color: $muted;
+  }
+
+  // ---------- Table ----------
+  &-card {
+    overflow: hidden;
+    background: $card;
+    border-radius: 0;
+    box-shadow: $shadow;
+  }
+
+  &-table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: separate;
+    border-spacing: 0;
+
+    th,
+    td {
+      padding: 0 10px;
+      text-align: left;
+      vertical-align: middle;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      border-bottom: 1px solid $border;
+      border-right: 1px solid $border;
+    }
+
+    th:last-child,
+    td:last-child {
+      border-right: 0;
+    }
+
+    th {
+      height: 36px;
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+      color: $ink;
+      background: #dbe5d4;
+      border-bottom-color: $border-strong;
+      border-right-color: #c3d0bb;
+    }
+
+    td {
+      height: 46px;
+      font-size: 12.5px;
+    }
+
+    tbody tr {
+      transition: background 0.12s;
+
+      &:hover {
+        background: $surface-alt;
+      }
+
+      &:last-child td {
+        border-bottom: 0;
+      }
+    }
+
+    // column widths: Member, Email, Access (must add up to 100%)
+    th:nth-child(1) { width: 34%; }
+    th:nth-child(2) { width: 40%; }
+    th:nth-child(3) { width: 26%; }
+  }
+
+  &-empty {
+    height: 120px !important;
+    color: $muted-2;
+    font-size: 14px !important;
+    text-align: center !important;
+  }
+
+  // person
+  &-who {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+
+    strong {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: $ink;
+      font-size: 13px;
+      font-weight: 600;
+    }
+  }
+
+  &-avatar {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #fff;
+    background: linear-gradient(160deg, $accent-light, $accent-dark);
+    border-radius: 8px;
+  }
+
+  &-email {
+    color: $muted;
+  }
+
+  &-dash {
+    color: $muted-2;
+  }
+
+  // access: flat pill
+  &-access {
+    display: inline-block;
+    padding: 3px 10px;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+
+    &-developer { background: $dev-bg; color: $dev-fg; }
+    &-support   { background: $sup-bg; color: $sup-fg; }
+    &-both      { background: $both-bg; color: $both-fg; }
+  }
+}
+
+// ---------- Narrow screens: rows become cards ----------
+@media (max-width: $bp) {
+  .team {
+    &-fields {
+      grid-template-columns: 1fr;
+    }
+
+    &-search {
+      flex: 1 0 100%;
+    }
+
+    &-total {
+      margin-left: 0;
+    }
+
+    &-card {
+      background: transparent;
+      box-shadow: none;
+    }
+
+    &-table {
+      display: block;
+      table-layout: auto;
+
+      thead {
+        display: none;
+      }
+
+      tbody {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      tbody tr {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px 12px;
+        padding: 14px;
+        background: $card;
+        box-shadow: $shadow;
+
+        &:hover {
+          background: $card;
+        }
+      }
+
+      td {
+        display: block;
+        height: auto;
+        min-width: 0;
+        padding: 0;
+        border: 0;
+        overflow: visible;
+
+        &::before {
+          content: attr(data-label);
+          display: block;
+          margin-bottom: 3px;
+          color: $muted-2;
+          font-size: 11px;
+          font-weight: 600;
+        }
+      }
+
+      td[data-label="Member"],
+      td[data-label="Email"],
+      td[data-label="Access"] {
+        grid-column: 1 / -1;
+      }
+
+      td[data-label="Member"]::before {
+        display: none;
+      }
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .team * {
+    transition: none !important;
+  }
+}

@@ -1,0 +1,759 @@
+$navy: #1e1b2e;
+$violet: #7c3aed;
+$violet-dark: #6d28d9;
+$violet-text: #5b21b6;
+$violet-soft: #ede9fe;
+$surface-alt: #faf9fc;
+$hover: #f4f2fa;
+$line: #e4e1ee;
+$line-strong: #c9c4dc;
+$ink: #141414;
+$label: #1f2937;
+$muted: #4b5563;
+$faint: #6b7280;
+$danger: #dc2626;
+$caret: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+
+// Visually hidden, still readable by screen readers
+.ec-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+// Icon buttons (used in the table and inside the modal)
+.ec-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  color: $faint;
+  background: transparent;
+  border: 0;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: color 0.15s, background 0.15s;
+
+  &:hover {
+    color: $navy;
+    background: $hover;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $violet;
+    outline-offset: 1px;
+  }
+
+  &-danger:hover {
+    color: $danger;
+    background: #fef2f2;
+  }
+}
+
+.ec-actions {
+  display: flex;
+  gap: 2px;
+}
+
+// ---------- Modal ----------
+.ec-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: rgba(30, 27, 46, 0.45);
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  animation: ec-fade 0.15s ease-out;
+}
+
+.ec-modal {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 780px;
+  max-height: calc(100vh - 48px);
+  color: $ink;
+  background: #fff;
+  border: 1px solid $line;
+  border-radius: 8px;
+  box-shadow: 0 16px 48px rgba(30, 27, 46, 0.22);
+  overflow: hidden;
+  animation: ec-pop 0.18s ease-out;
+}
+
+.ec-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 20px 14px 24px;
+  border-bottom: 1px solid $line;
+
+  h3 {
+    margin: 0;
+    color: $navy;
+    font-size: 18px;
+    font-weight: 600;
+  }
+}
+
+.ec-head-text {
+  min-width: 0;
+}
+
+.ec-head-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 6px 0 0;
+
+  span {
+    padding: 1px 8px;
+    color: $violet-text;
+    font-size: 12px;
+    font-weight: 600;
+    background: $violet-soft;
+    border-radius: 10px;
+  }
+}
+
+.ec-x {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  color: $faint;
+  background: none;
+  border: 0;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+
+  &:hover {
+    background: $hover;
+    color: $navy;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $violet;
+    outline-offset: 1px;
+  }
+}
+
+.ec-body {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 16px 24px 24px;
+  background: $surface-alt;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #d4d0e2 transparent;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #d4d0e2;
+    border-radius: 4px;
+    border: 2px solid $surface-alt;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: #b9b3d0;
+  }
+
+  &::-webkit-scrollbar-button {
+    display: none;
+    height: 0;
+  }
+}
+
+.ec-alert {
+  padding: 10px 14px;
+  font-size: 14px;
+  color: #b91c1c;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 6px;
+}
+
+// ---------- Sections ----------
+.ec-section {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 16px 18px 18px;
+  background: #fff;
+  border: 1px solid $line;
+  border-radius: 8px;
+}
+
+.ec-section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  color: $navy;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.ec-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px 16px;
+}
+
+.ec-req {
+  color: $danger;
+}
+
+.ec-err {
+  color: $danger;
+  font-size: 12px;
+}
+
+.ec-label {
+  color: $label;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.ec-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+
+  label {
+    color: $label;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  input,
+  select,
+  textarea {
+    width: 100%;
+    box-sizing: border-box;
+    height: 40px;
+    padding: 0 12px;
+    color: $ink;
+    font: inherit;
+    font-size: 14px;
+    background-color: #fff;
+    border: 1px solid $line;
+    border-radius: 6px;
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+
+    &:hover {
+      border-color: $line-strong;
+    }
+
+    &:focus {
+      border-color: $violet;
+      box-shadow: 0 0 0 3px rgba($violet, 0.16);
+    }
+
+    &.has-error {
+      border-color: $danger;
+
+      &:focus {
+        box-shadow: 0 0 0 3px rgba($danger, 0.14);
+      }
+    }
+  }
+
+  select {
+    padding-right: 34px;
+    background-image: $caret;
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  textarea {
+    height: auto;
+    min-height: 110px;
+    padding: 10px 12px;
+    line-height: 1.5;
+    resize: vertical;
+
+    &::placeholder {
+      color: #8b92a0;
+    }
+  }
+}
+
+// ---------- Status / priority pills ----------
+.ec-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.ec-pill {
+  height: 32px;
+  padding: 0 14px;
+  color: $muted;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  background: #fff;
+  border: 1px solid $line;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+
+  &:hover {
+    background: $hover;
+    border-color: $line-strong;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $violet;
+    outline-offset: 2px;
+  }
+
+  &.on {
+    color: $violet-text;
+    background: $violet-soft;
+    border-color: $violet;
+  }
+}
+
+// ---------- Images ----------
+.ec-thumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ec-thumb {
+  position: relative;
+  width: 84px;
+  height: 84px;
+  overflow: hidden;
+  background: $hover;
+  border: 1px solid $line;
+  border-radius: 6px;
+
+  a {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.ec-thumb-x {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  color: #fff;
+  background: rgba(30, 27, 46, 0.72);
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.15s;
+
+  &:hover {
+    background: $danger;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $violet;
+    outline-offset: 1px;
+  }
+}
+
+.ec-drop {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  padding: 12px 14px;
+  background: $surface-alt;
+  border: 1px dashed $line-strong;
+  border-radius: 6px;
+  transition: background 0.15s, border-color 0.15s;
+
+  &.over {
+    background: $violet-soft;
+    border-color: $violet;
+  }
+
+  &:focus-within .ec-drop-btn {
+    outline: 2px solid $violet;
+    outline-offset: 2px;
+  }
+}
+
+.ec-drop-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 36px;
+  padding: 0 14px;
+  color: $navy;
+  font-size: 14px;
+  font-weight: 600;
+  background: #fff;
+  border: 1px solid $line;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+
+  &:hover {
+    background: $hover;
+    border-color: $line-strong;
+  }
+}
+
+.ec-drop-hint {
+  color: $faint;
+  font-size: 13px;
+}
+
+.ec-picked {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px;
+  background: $violet-soft;
+  border-radius: 6px;
+}
+
+.ec-picked-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: $violet-text;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+// ---------- Follow-ups ----------
+.ec-sub-count {
+  min-width: 20px;
+  padding: 0 6px;
+  color: $violet-text;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 20px;
+  text-align: center;
+  background: $violet-soft;
+  border-radius: 10px;
+}
+
+.ec-add {
+  display: flex;
+  gap: 8px;
+
+  input {
+    flex: 1;
+    min-width: 0;
+    height: 40px;
+    box-sizing: border-box;
+    padding: 0 12px;
+    color: $ink;
+    font: inherit;
+    font-size: 14px;
+    background: #fff;
+    border: 1px solid $line;
+    border-radius: 6px;
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+
+    &::placeholder {
+      color: #8b92a0;
+    }
+
+    &:hover {
+      border-color: $line-strong;
+    }
+
+    &:focus {
+      border-color: $violet;
+      box-shadow: 0 0 0 3px rgba($violet, 0.16);
+    }
+  }
+}
+
+.ec-notes {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 12px 12px 14px;
+    background: $surface-alt;
+    border: 1px solid $line;
+    border-radius: 6px;
+  }
+}
+
+.ec-note-avatar {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  color: $violet-text;
+  font-size: 11px;
+  font-weight: 600;
+  background: $violet-soft;
+  border-radius: 50%;
+}
+
+.ec-note-text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+  color: $ink;
+  font-size: 14px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+
+  small {
+    display: block;
+    margin-top: 2px;
+    color: $faint;
+    font-size: 12px;
+  }
+}
+
+.ec-note-actions {
+  display: flex;
+  flex: none;
+  gap: 2px;
+}
+
+.ec-note-edit {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+
+  textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 12px;
+    color: $ink;
+    font: inherit;
+    font-size: 14px;
+    line-height: 1.5;
+    background: #fff;
+    border: 1px solid $violet;
+    border-radius: 6px;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba($violet, 0.16);
+    resize: vertical;
+  }
+}
+
+.ec-note-btns {
+  display: flex;
+  gap: 8px;
+}
+
+.ec-empty {
+  justify-content: center !important;
+  color: $faint;
+  font-size: 14px;
+  background: transparent !important;
+  border-style: dashed !important;
+}
+
+// ---------- Footer & buttons ----------
+.ec-foot {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 14px 24px;
+  border-top: 1px solid $line;
+  background: #fff;
+}
+
+.ec-foot-tip {
+  margin-right: auto;
+  color: $faint;
+  font-size: 12px;
+}
+
+.ec-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 38px;
+  padding: 0 18px;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+
+  &:focus-visible {
+    outline: 2px solid $violet;
+    outline-offset: 2px;
+  }
+
+  &-sm {
+    height: 32px;
+    padding: 0 14px;
+    font-size: 13px;
+  }
+
+  &-primary {
+    color: #fff;
+    background: $violet;
+
+    &:hover:not(:disabled) {
+      background: $violet-dark;
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  &-ghost {
+    color: $navy;
+    background: #fff;
+    border-color: $line;
+
+    &:hover {
+      background: $surface-alt;
+      border-color: $line-strong;
+    }
+  }
+}
+
+@keyframes ec-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes ec-pop {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+}
+
+@media (max-width: 760px) {
+  .ec-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+// ---------- Mobile: bottom sheet ----------
+@media (max-width: 600px) {
+  .ec-overlay {
+    place-items: end center;
+    padding: 0;
+  }
+
+  .ec-modal {
+    max-width: none;
+    max-height: 92vh;
+    border-radius: 10px 10px 0 0;
+  }
+
+  .ec-head {
+    padding: 12px 12px 12px 18px;
+  }
+
+  .ec-body {
+    gap: 12px;
+    padding: 12px 12px 20px;
+  }
+
+  .ec-section {
+    padding: 14px 14px 16px;
+  }
+
+  .ec-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ec-thumb {
+    width: 72px;
+    height: 72px;
+  }
+
+  .ec-foot {
+    flex-direction: column-reverse;
+    align-items: stretch;
+    padding: 14px 18px;
+
+    .ec-btn {
+      width: 100%;
+      height: 42px;
+    }
+  }
+
+  .ec-foot-tip {
+    display: none;
+  }
+}
+
+@media (hover: none) {
+  .ec-foot-tip {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ec-overlay,
+  .ec-modal {
+    animation: none;
+  }
+}

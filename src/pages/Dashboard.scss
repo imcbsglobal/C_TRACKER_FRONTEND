@@ -1,0 +1,131 @@
+// Dashboard — everything is scoped under .db so it can't leak into other screens.
+
+$card: #ffffff;
+$line: #e4e9e0;
+$text: #1f2a1f;
+$muted: #6b776a;
+$accent: #5d7a5a;
+$accent-dark: #4a6648;
+$radius: 14px;
+
+.db {
+  --c: #{$accent};
+
+  color: $text;
+  padding: 4px 2px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+
+  .tone-blue   { --c: #3b82d6; }
+  .tone-yellow { --c: #d99a1c; }
+  .tone-green  { --c: #4f9d69; }
+  .tone-purple { --c: #8062cc; }
+
+  /* ---------- header ---------- */
+  &-top {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+
+    h1 {
+      margin: 0;
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+
+    p {
+      margin: 4px 0 0;
+      color: $muted;
+      font-size: 13.5px;
+    }
+  }
+
+  &-tools {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  &-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 36px;
+    padding: 0 14px;
+    border: 1px solid $line;
+    border-radius: 10px;
+    background: #fff;
+    color: $text;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+
+    &:hover:not(:disabled) { border-color: $accent; background: #f8faf6; }
+    &:disabled { opacity: 0.6; cursor: default; }
+    &:focus-visible { outline: 2px solid $accent; outline-offset: 1px; }
+
+    &-primary {
+      background: $accent;
+      border-color: $accent;
+      color: #fff;
+
+      &:hover:not(:disabled) { background: $accent-dark; border-color: $accent-dark; }
+    }
+  }
+
+  &-alert {
+    padding: 10px 14px;
+    border-radius: 10px;
+    background: #fbeaea;
+    border: 1px solid #f1c9c8;
+    color: #a03b38;
+    font-size: 13px;
+  }
+
+  /* ---------- KPI cards ---------- */
+  &-kpis {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  &-kpi {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 16px 18px;
+    background: $card;
+    border: 1px solid $line;
+    border-left: 3px solid var(--c);
+    border-radius: $radius;
+
+    &-label {
+      font-size: 12px;
+      color: $muted;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    &-value {
+      font-size: 30px;
+      line-height: 1.15;
+      font-weight: 700;
+    }
+  }
+}
+
+/* ---------- responsive ---------- */
+@media (max-width: 680px) {
+  .db-kpis { grid-template-columns: minmax(0, 1fr); }
+  .db-top h1 { font-size: 21px; }
+  .db-tools { width: 100%; }
+}

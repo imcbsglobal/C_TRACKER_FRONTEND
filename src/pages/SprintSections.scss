@@ -1,0 +1,218 @@
+// Sprint > Project > Section > Tasks: styles for the pieces added on top of Sprints.scss
+// (project picker in the sprint window, project chips, section groups, section tags).
+// Kept in its own file so Sprints.scss stays untouched. Same sage theme.
+$accent: #4f7a46;
+$accent-dark: #3f6839;
+$accent-soft: #e4ede0;
+$surface: #ffffff;
+$surface-alt: #f2f5ef;
+$track: #e6ede2;
+$border: #e3e9de;
+$border-2: #cfd8c9;
+$text: #1c261b;
+$text-2: #6f7a6c;
+$bp: 800px;
+
+// ---------- Projects checklist inside the New / Edit sprint window ----------
+.ss-count {
+  font-style: normal;
+  font-weight: 500;
+  color: $text-2;
+}
+
+.ss-projects {
+  list-style: none;
+  margin: 6px 0 0;
+  padding: 4px;
+  max-height: 190px;
+  overflow-y: auto;
+  border: 1px solid $border;
+  border-radius: 10px;
+  background: $surface;
+
+  label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.12s;
+
+    &:hover {
+      background: $surface-alt;
+    }
+
+    &.on {
+      background: $accent-soft;
+    }
+
+    input {
+      flex: none;
+      width: 16px;
+      height: 16px;
+      margin: 0;
+      accent-color: $accent;
+      cursor: pointer;
+    }
+
+    small {
+      margin-left: auto;
+      flex: none;
+      font-size: 12px;
+      color: $text-2;
+    }
+  }
+}
+
+.ss-projects-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 14px;
+  font-weight: 600;
+  color: $text;
+}
+
+// ---------- Projects that take part in a sprint (chips, click to switch) ----------
+.ss-projchips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.ss-projchip {
+  padding: 3px 10px;
+  border: 1px solid $border-2;
+  border-radius: 999px;
+  background: $surface;
+  color: $text-2;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.12s, border-color 0.12s, color 0.12s;
+
+  &:hover:not(:disabled) {
+    background: $accent-soft;
+    border-color: $accent;
+    color: $accent-dark;
+  }
+
+  &.on {
+    background: $accent;
+    border-color: $accent;
+    color: #fff;
+    cursor: default;
+  }
+
+  &:disabled:not(.on) {
+    opacity: 0.6;
+    cursor: default;
+  }
+}
+
+// ---------- Section groups ----------
+.ss-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-top: 14px;
+}
+
+.ss-group-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 2px 8px;
+
+  h5 {
+    margin: 0;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: $text;
+  }
+}
+
+.ss-group-count {
+  flex: none;
+  font-size: 12px;
+  font-weight: 600;
+  color: $text-2;
+}
+
+.ss-group-bar {
+  flex: 0 0 90px;
+  height: 6px;
+  margin-left: auto;
+  border-radius: 999px;
+  background: $track;
+  overflow: hidden;
+
+  i {
+    display: block;
+    height: 100%;
+    border-radius: 999px;
+    background: $accent;
+    transition: width 0.25s;
+  }
+}
+
+// The list inside a group sits flush under its heading (the groups supply the spacing).
+.ss-group .sx-rows,
+.ss-group .sp-cases {
+  margin-top: 0;
+}
+
+// ---------- Section tag on a task row ----------
+.ss-tag {
+  flex: none;
+  max-width: 140px;
+  margin-left: 8px;
+  padding: 1px 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  border-radius: 999px;
+  background: $accent-soft;
+  color: $accent-dark;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+// ---------- Unfinished tasks per project (Complete sprint window) ----------
+.ss-perproject {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  margin: -4px 0 12px;
+  font-size: 13px;
+  color: $text-2;
+
+  b {
+    color: $text;
+  }
+}
+
+// Desktop: the active sprint's task area scrolls as one block, even with several groups.
+@media (min-width: #{$bp + 1}) {
+  .sp-card-active .ss-groups {
+    flex: 1 1 auto;
+    min-height: 120px;
+    overflow-y: auto;
+    padding-right: 2px;
+  }
+
+  .sp-card-active .ss-groups .sx-rows {
+    flex: none;
+    min-height: 0;
+    overflow: hidden;
+  }
+}
